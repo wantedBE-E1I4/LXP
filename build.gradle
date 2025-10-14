@@ -10,6 +10,8 @@ repositories {
 }
 
 dependencies {
+    // MySQL JDBC 드라이버를 다운로드하라는 명령입니다.
+    implementation 'mysql:mysql-connector-java:8.0.33'
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
