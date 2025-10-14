@@ -1,11 +1,78 @@
 # LXP
 
-<br />
+## ☕ LXP Console Service (학습 경험 플랫폼)
+
+Java와 MySQL JDBC로 구현한 콘솔 기반의 간단한 온라인 학습 플랫폼(LXP)입니다. 사용자는 학습자와 강사로 나뉘어 강좌를 수강하거나 개설할 수 있습니다.
+
+## ✨ 주요 기능
+### 🧑‍🎓 학습자 (Learner)
+
+강좌 목록 조회: 개설된 모든 강좌의 목록을 탐색할 수 있습니다.
+
+수강 신청: 원하는 강좌를 선택하여 수강 신청을 할 수 있습니다.
+
+내 수강 목록 확인: 자신이 수강 중인 강좌 목록과 진도율을 확인할 수 있습니다.
+
+### 🧑‍🏫 강사 (Instructor)
+강좌 개설: 새로운 강좌(책)를 시스템에 등록합니다.
+
+강의 등록: 개설한 강좌 안에 세부 강의(챕터)를 추가하여 콘텐츠를 완성합니다.
+
+자신이 개설한 강좌 목록 확인: 본인이 등록한 강좌들을 관리합니다.
+
+### 🛠️ 기술 스택 (Tech Stack)
+언어: Java 17 (Temurin)
+데이터베이스: MySQL
+DB 연동: JDBC API
+빌드 도구: Maven
+UI: Java Standard I/O (Scanner)
+
+### 📂 프로젝트 폴더 구조
+
+본 프로젝트는 기능별 패키지 구조(Packaging by Feature)를 따릅니다.
+
+```
+LXP-Console-App/
+├── .gitignore
+├── pom.xml
+├── README.md
+│
+└── src/
+    └── main/
+        ├── java/
+        │   └── com/
+        │       └── lxp/
+        │           ├── App.java              // 메인 시작점
+        │           ├── config/               // DB 연결 등 공통 설정
+        │           ├── user/                 // 사용자 기능
+        │           ├── course/               // 강좌/강의 기능
+        │           ├── enrollment/           // 수강신청 기능
+        │           └── view/                 // 사용자 입출력 화면
+        │
+        └── resources/
+            └── db.properties             // DB 접속 정보 설정 파일
+```
+🚀 시작하기 (Getting Started)
+이 프로젝트를 로컬 환경에 복제(Clone)합니다.
+
+
+pom.xml에 명시된 의존성(MySQL Connector)을 설치합니다. (IntelliJ에서 Maven 프로젝트로 열면 자동으로 설치됩니다.)
+
+
+src/main/resources/db.properties 파일에 자신의 MySQL 데이터베이스 접속 정보를 입력합니다.
+```
+Properties
+db.url=jdbc:mysql://localhost:3306/your_database_name
+db.username=your_username
+db.password=your_password
+```
+ERD를 참고하여 데이터베이스에 필요한 테이블을 생성합니다.
+
+App.java를 실행하여 프로그램을 시작합니다.
 
 ## 🤝 커밋 컨벤션
 
 일관된 커밋 메시지로 프로젝트 히스토리를 깔끔하게 관리합니다.
-
 
 ### 커밋 타입
 
