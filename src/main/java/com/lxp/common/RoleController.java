@@ -35,18 +35,15 @@ public class RoleController {
                     } else {
                         System.out.println("사용자를 찾을 수 없습니다.");
                     }
-                    //new LearnerController(learner).process();
                     break;
                 // 강사
                 case "2":
-                    //User tutor = User.createTutor(1, "김강사");
                     User tutor = this.userService.findUserByRole(Role.TUTOR);
                     if (tutor != null) {
                         new TutorController(tutor).process();
                     } else {
                         System.out.println("사용자를 찾을 수 없습니다.");
                     }
-                    //new TutorController(tutor).process();
                     break;
                 // 프로그램 종료
                 case "Q", "q":
