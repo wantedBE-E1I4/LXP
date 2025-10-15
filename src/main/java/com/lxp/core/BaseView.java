@@ -5,14 +5,12 @@ import java.util.List;
 public abstract class BaseView {
     public abstract void show();
 
+    // Header Method
     protected void printHeader(String title) {
         System.out.println("== " + title + " ==");
     }
 
-    protected void printBody() {
-        System.out.println("");
-    }
-
+    // Body Method
     protected void printBody(List<String> messages) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < messages.size(); i++) {
@@ -21,12 +19,17 @@ public abstract class BaseView {
         System.out.println(sb);
     }
 
+    // Footer Method
     protected void printFooter(String message) {
         System.out.println(message);
     }
 
+    // Other Method
     protected void closeComment() {
         System.out.println("종료하시려면 'Q'를 눌러죽세요.");
+    }
+    protected void printBlankLine() {
+        System.out.println("");
     }
 
 }
