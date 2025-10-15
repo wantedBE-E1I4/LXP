@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// 사용자 데이터 접근
 public class UserDAO {
 
     // 모든 사용자 정보를 출력하는 메서드

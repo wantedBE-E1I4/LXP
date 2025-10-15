@@ -2,6 +2,8 @@ package com.lxp.core;
 
 import java.util.List;
 
+// NOTE: 삭제 예정
+/*
 public abstract class BaseView {
     public abstract void show();
 
@@ -14,7 +16,7 @@ public abstract class BaseView {
     protected void printBody(List<String> messages) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < messages.size(); i++) {
-            sb.append(i+1).append(".").append(messages.get(i)).append("\n");
+            sb.append(i + 1).append(".").append(messages.get(i)).append("\n");
         }
         System.out.println(sb);
     }
@@ -33,3 +35,4 @@ public abstract class BaseView {
     }
 
 }
+*/

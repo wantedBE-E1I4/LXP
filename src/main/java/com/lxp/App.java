@@ -1,11 +1,10 @@
-// src/main/java/com/lxp/App.java
 package com.lxp;
 
-import com.lxp.core.MainView;
+import com.lxp.common.RoleController;
 
 public class App {
     public static void main(String[] args) {
-         MainView mainView = new MainView();
-         mainView.show();
+        RoleController roleController = new RoleController();
+        roleController.start();
     }
 }
