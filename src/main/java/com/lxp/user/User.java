@@ -16,6 +16,7 @@ public class User {
         this.role = role;
     }
 
+    // 역할별 생성
     public static User createLearner(int id, String name) {
         return new User(id, name, Role.LEARNER);
     }
@@ -24,7 +25,12 @@ public class User {
         return new User(id, name, Role.TUTOR);
     }
 
-    // Getter & Setter
+    // DB 조회용
+    static User createFromDB(int id, String name, Role role) {
+        return new User(id, name, role);
+    }
+
+    // Getter
     public int getId() {
         return id;
     }
