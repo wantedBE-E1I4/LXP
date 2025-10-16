@@ -1,4 +1,3 @@
-// src/main/java/com/lxp/user/UserDAO.java
 package com.lxp.user;
 
 import com.lxp.config.DatabaseManager;
@@ -7,7 +6,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+// TODO: query util 분리
+// 사용자 데이터 접근
 public class UserDAO {
+    private final Connection conn;
+
+    public UserDAO(Connection conn) {
+        this.conn = conn;
+    }
 
     // 모든 사용자 정보를 출력하는 메서드
     public void printAllUsers() {
@@ -32,6 +38,21 @@ public class UserDAO {
         } catch (SQLException e) {
             System.out.println("데이터베이스 조회 중 오류가 발생했습니다.");
             e.printStackTrace();
+        }
+    }
+
+    public User getUserByRole(Role role) throws SQLException {
+        String sql = "SELECT user_id AS id, user_name AS name, role FROM users WHERE role = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, role.name()); // NOTE: enum 상수의 정확한 이름 반환
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return User.createFromDB(rs.getInt("id"), rs.getString("name"), Role.valueOf(rs.getString("role")));
+            } else {
+                return null;
+            }
         }
     }
 }

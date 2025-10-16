@@ -3,6 +3,8 @@ package com.lxp.core;
 import java.util.List;
 import java.util.Scanner;
 
+// NOTE: 삭제 예정
+/*
 public class MainView extends BaseView {
 
     @Override
@@ -42,3 +44,4 @@ public class MainView extends BaseView {
         show(); // 다시 메인메뉴
     }
 }
+*/
