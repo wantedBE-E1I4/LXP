@@ -1,6 +1,8 @@
-package com.lxp.course;
+package com.lxp.course.controller;
 
-import com.lxp.lecture.LectureService;
+import com.lxp.course.service.CourseService;
+import com.lxp.course.EnrollmentService;
+import com.lxp.lecture.service.LectureService;
 
 import java.util.Scanner;
 

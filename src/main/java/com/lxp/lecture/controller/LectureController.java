@@ -1,4 +1,6 @@
-package com.lxp.lecture;
+package com.lxp.lecture.controller;
+
+import com.lxp.lecture.service.LectureService;
 
 import java.util.Scanner;
 

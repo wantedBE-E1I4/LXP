@@ -1,6 +1,8 @@
-package com.lxp.course;
+package com.lxp.course.service;
 
-import com.lxp.lecture.LectureDAO;
+import com.lxp.course.EnrollmentDAO;
+import com.lxp.course.dao.CourseDAO;
+import com.lxp.lecture.dao.LectureDAO;
 
 // 강좌 관련 로직
 public class CourseService {

@@ -1,13 +1,17 @@
 package com.lxp;
 
 import com.lxp.config.DatabaseManager;
-import com.lxp.course.*;
-import com.lxp.lecture.LectureController;
-import com.lxp.lecture.LectureDAO;
-import com.lxp.lecture.LectureService;
-import com.lxp.user.UserController;
-import com.lxp.user.UserDAO;
-import com.lxp.user.UserService;
+import com.lxp.course.EnrollmentDAO;
+import com.lxp.course.EnrollmentService;
+import com.lxp.course.controller.CourseController;
+import com.lxp.course.dao.CourseDAO;
+import com.lxp.course.service.CourseService;
+import com.lxp.lecture.controller.LectureController;
+import com.lxp.lecture.dao.LectureDAO;
+import com.lxp.lecture.service.LectureService;
+import com.lxp.user.controller.UserController;
+import com.lxp.user.dao.UserDAO;
+import com.lxp.user.service.UserService;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -24,7 +28,7 @@ public class App {
         // ====================================================================
 
         // DAO 계층 객체 생성
-        UserDAO userDAO = new UserDAO(conn);
+        UserDAO userDAO = new UserDAO();
         CourseDAO courseDAO = new CourseDAO(conn);
         LectureDAO lectureDAO = new LectureDAO(conn);
         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
@@ -65,6 +69,7 @@ public class App {
                 case "0":
                     System.out.println("프로그램을 종료합니다.");
                     scanner.close();
+                    conn.close(); // 프로그램 종료 시 Connection 자원 반납
                     return; // 프로그램 완전 종료
                 default:
                     System.out.println("잘못된 입력입니다. 다시 선택해주세요.");
@@ -130,3 +135,4 @@ public class App {
         }
     }
 }
+

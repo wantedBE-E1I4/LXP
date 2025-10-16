@@ -1,6 +1,9 @@
-package com.lxp.user;
+package com.lxp.user.service;
 
-import java.sql.Connection;
+import com.lxp.user.Role;
+import com.lxp.user.User;
+import com.lxp.user.dao.UserDAO;
+
 import java.sql.SQLException;
 
 // 사용자 관련 비즈니스 로직

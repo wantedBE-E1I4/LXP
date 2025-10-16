@@ -1,4 +1,4 @@
-package com.lxp.course;
+package com.lxp.course.dao;
 
 import java.sql.Connection;
 
