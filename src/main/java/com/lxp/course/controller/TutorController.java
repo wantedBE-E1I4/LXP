@@ -15,15 +15,13 @@ public class TutorController {
     }
 
     public void process() {
-        // TODO: LearnerView.showMenu();
-        // TODO: 사용자 입력값에 따라 수강 목록 조회 / 수강 신청 등 분기 처리
-        System.out.println("강사 메뉴 출력");
-        System.out.println("1. 강좌 관리");
-
-        // === TODO: View로 이동 ===
-        Scanner scanner = new Scanner(System.in);
+        // TODO: TutorMenuView.show();
+        System.out.println("강사 메뉴 출력"); // header
+        System.out.println("1. 강좌 관리");  // body
+        System.out.print("원하는 번호를 입력하세요\n>>");  // footer
+        Scanner scanner = new Scanner(System.in); // getInput()
         String input = scanner.nextLine();
-        // =======================
+        // ================================
 
         boolean running = true;
 
@@ -31,19 +29,17 @@ public class TutorController {
             switch (input) {
                 // 강좌 관리 메뉴 진입
                 case "1":
-                    enterCourseManagement();
+                    new CourseManagementController(tutor).process();
                     break;
+                // 프로그램 종료
                 case "Q", "q":
-                    System.out.println("종료합니다.");
+                    System.out.println("종료합니다."); // TODO: TutorMenuView로 이동
                     running = false;
                     break;
+                // 잘못된 입력
                 default:
-                    System.out.println("다시 입력해주세요.");
+                    System.out.println("다시 입력해주세요."); // TODO: TutorMenuView로 이동
             }
         }
-    }
-
-    private void enterCourseManagement() {
-        System.out.println("here");
     }
 }
