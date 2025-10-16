@@ -8,8 +8,8 @@ public class UserService {
 
     private final UserDAO userDAO;
 
-    public UserService(Connection conn) {
-        this.userDAO = new UserDAO(conn);
+    public UserService(UserDAO userDAO) {
+        this.userDAO = userDAO;
     }
 
     public User findUserByRole(Role role) {
