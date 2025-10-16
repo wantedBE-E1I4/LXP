@@ -59,4 +59,8 @@ public class User {
     public String toString() {
         return String.format("User{id='%s', name='%s', role=%s}", id, name, role);
     }
+
+    public int getUserId() {
+        return 0;
+    }
 }
