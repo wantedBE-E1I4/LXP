@@ -1,5 +1,7 @@
 package com.lxp.course;
 
+import com.lxp.lecture.Lecture;
+
 import java.util.Date;
 
 // 강좌 엔티티
@@ -20,5 +22,6 @@ public class Course {
     public static Course createCourse(int tutorId, String title) {
         return new Course(tutorId, title);
     }
+
 
 }
