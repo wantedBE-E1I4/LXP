@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class App {
+
     public static void main(String[] args) throws SQLException {
         Connection conn = DatabaseManager.getConnection();
 
@@ -83,6 +84,8 @@ public class App {
     private static void runStudentMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
         // Long studentId = 1L; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
         while (true) {
+            //전체 강좌 출력
+            courseController.showAllCourses();
             System.out.println("\n--- [학생 메뉴] ---");
             System.out.println("1. 전체 강좌 목록 조회");
             System.out.println("2. 강좌 수강 신청");
@@ -90,6 +93,7 @@ public class App {
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
+
             if ("1".equals(menuChoice)) {
                 // CourseController를 통해 전체 강좌 목록을 보여줍니다.
                 courseController.showAllCourses();
@@ -110,6 +114,8 @@ public class App {
      * 선생님 전용 메뉴를 실행하는 메서드
      */
     private static void runTeacherMenu(Scanner scanner, CourseController courseController, LectureController lectureController, UserController userController) {
+        // 전체 강좌 출력
+        courseController.showAllCourses();
         // Long teacherId = 2L; // 실제로는 로그인된 선생님의 ID를 받아와야 합니다.
         while (true) {
             System.out.println("\n--- [선생님 메뉴] ---");
