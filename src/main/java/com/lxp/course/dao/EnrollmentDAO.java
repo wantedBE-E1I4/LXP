@@ -1,8 +1,9 @@
-package com.lxp.course;
+package com.lxp.course.dao;
 
+import com.lxp.course.Enrollment;
+import com.lxp.course.EnrollmentStatus;
 import com.lxp.course.dto.EnrollmentData;
 
-import com.lxp.config.DatabaseManager;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,28 +15,6 @@ public class EnrollmentDAO {
         this.conn = conn;
     }
 
-    public List<EnrollmentData> findByUserId(int userId) {
-        String sql = "SELECT c.course_id, c.title, u.user_name FROM enrollments as e, courses as c, users as u WHERE e.course_id = c.course_id AND c.tutor_id = u.user_id AND e.user_id = ?";
-        List<EnrollmentData> response = new ArrayList<>();
-
-        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1, userId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                EnrollmentData data = new EnrollmentData(
-                        rs.getInt("course_id"),
-                        rs.getString("title"),
-                        rs.getString("user_name")
-                );
-                response.add(data);
-            }
-
-            return response;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
 /**
  * 특정 사용자가 '수강중'인 강좌 목록을 DB에서 조회하여 반환합니다.
  * @param userId 조회할 사용자의 ID
@@ -47,10 +26,11 @@ public class EnrollmentDAO {
                     "e.enrollment_id, " +
                     "e.user_id, " +
                     "e.course_id, " +
+                    "e.progress, " +
                     "e.status, " +
                     "c.title " +
                     "FROM enrollments e JOIN courses c ON e.course_id = c.course_id " +
-                    "WHERE e.user_id = ? AND e.status = '수강중'"; // '수강중' 상태값 확인 필요
+                    "WHERE e.user_id = ? AND e.status = 'IN_PROGRESS'"; // '수강중' 상태값 확인 필요
 
             List<Enrollment> myCourses = new ArrayList<>();
 
