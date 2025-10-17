@@ -114,7 +114,7 @@ public class App {
         while (true) {
             System.out.println("\n--- [선생님 메뉴] ---");
             System.out.println("1. 신규 강좌 개설");
-            System.out.println("2. 내 강좌에 강의(차시) 추가");
+            System.out.println("2. 내 강좌에 강의 관리");
             System.out.println("3. 내 강좌 목록 보기");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
