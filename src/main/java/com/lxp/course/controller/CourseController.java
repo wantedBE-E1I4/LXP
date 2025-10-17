@@ -65,35 +65,20 @@ public class CourseController {
   
         //내 강좌 목록 출력
      public void showMyCourses() {
-        List<Object[]> courseDataList = courseService.getAllCoursesWithTutorName();
-
-        System.out.println("\n== 전체 강좌 목록 ==");
-        if (courseDataList.isEmpty()) {
-            System.out.println("개설된 강좌가 없습니다.");
-            return;
-        }
-
-        // 2. 받은 데이터를 for문으로 출력
-        int index = 1;
-        for (Object[] data : courseDataList) {
-            Course course = (Course) data[0]; // Course 객체 추출
-            String tutorName = (String) data[1]; // 강사 이름 추출
-
-            // Course 객체에 getTitle() 메서드가 있어야 합니다.
-            System.out.printf("%d. %s - %s\n", index, course.getTitle(), tutorName);
-            index++;
-        }
 
     }
+
     public void enrollCourse(Scanner scanner) {
     }
+
     //강사 - 강좌 개설_
     public void createCourse(Scanner scanner) {
     }
+
     //강사 - 강좌 삭제
     public void deleteCourse(Scanner scanner) {
         // 1. 먼저 사용자에게 삭제 가능한 강좌 목록을 보여줍니다.
-        //feature/woong-
+        //feature/woong- show ALl Courses
 
         try {
             // 2. 사용자로부터 삭제할 강좌의 ID를 입력받습니다.

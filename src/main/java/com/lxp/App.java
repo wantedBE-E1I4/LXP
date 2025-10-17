@@ -5,6 +5,7 @@ import com.lxp.course.EnrollmentDAO;
 import com.lxp.course.EnrollmentService;
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.dao.CourseDAO;
+import com.lxp.course.dao.CourseDAOtutor;
 import com.lxp.course.service.CourseService;
 import com.lxp.lecture.controller.LectureController;
 import com.lxp.lecture.dao.LectureDAO;
@@ -22,15 +23,10 @@ public class App {
     public static void main(String[] args) throws SQLException {
         Connection conn = DatabaseManager.getConnection();
 
-        // ====================================================================
-        // 1. 의존성 설정 (Dependency Injection)
-        // 프로그램에 필요한 모든 객체를 시작점에서 미리 생성하고 연결합니다.
-        // 순서: DAO -> Service -> Controller
-        // ====================================================================
-
         // DAO 계층 객체 생성
         UserDAO userDAO = new UserDAO();
-        CourseDAO courseDAO = new CourseDAO();
+        CourseDAOtutor courseDAOtutor = new CourseDAOtutor();
+        CourseDAO courseDAO = new CourseDAO(conn);
         LectureDAO lectureDAO = new LectureDAO(conn);
         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
 
@@ -113,7 +109,7 @@ public class App {
     /**
      * 선생님 전용 메뉴를 실행하는 메서드
      */
-    private static void runTeacherMenu(Scanner scanner, CourseController courseController, LectureController lectureController, UserController userController) {
+    private static void runTutorMenu(Scanner scanner, CourseController courseController, LectureController lectureController, UserController userController) {
         // 전체 강좌 출력
         courseController.showAllCourses();
         // Long teacherId = 2L; // 실제로는 로그인된 선생님의 ID를 받아와야 합니다.
