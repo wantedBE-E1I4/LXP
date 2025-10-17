@@ -1,8 +1,8 @@
 package com.lxp;
 
 import com.lxp.config.DatabaseManager;
-import com.lxp.course.EnrollmentDAO;
-import com.lxp.course.EnrollmentService;
+import com.lxp.course.dao.EnrollmentDAO;
+import com.lxp.course.service.EnrollmentService;
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.dao.CourseDAO;
 import com.lxp.course.dao.CourseDAOtutor;
@@ -88,24 +88,18 @@ public class App {
             //전체 강좌 출력
             courseController.showAllCourses();
             System.out.println("\n--- [학습자 메뉴] ---");
-            System.out.println("1. 전체 강좌 목록 조회");
-            System.out.println("2. 강좌 수강 신청"); // TODO: 내 강좌 보기 안에 있어야 할 것 같음
-            System.out.println("3. 특정 강좌의 강의(차시) 목록 보기");
+            System.out.println("1. 수강 목록");
+            System.out.println("2. 수강 신청");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
 
             if ("1".equals(menuChoice)) {
-                // CourseController를 통해 전체 강좌 목록을 보여줍니다.
-                System.out.println("✅ here");
-                courseController.showAllCourses();
+                // NOTE : 두번째 파라미터에 user_id 값을 넣어주세요.
+                courseController.showMyCoursesForLearner(scanner, 3);
             } else if ("2".equals(menuChoice)) {
-                // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
-                courseController.enrollCourse(scanner /*, learnerId */);
-            } else if ("3".equals(menuChoice)) {
-                // LectureController를 통해 특정 강좌의 강의 목록을 보여줍니다.
-                // courseId:1을 클릭했다고 가정
-                lectureController.showLecturesByCourse(1);
+                // TODO : 수강신청 페이지로 이동 (재웅)
+//                courseController.showRegisterCourse();
             } else if ("0".equals(menuChoice)) {
                 return; // 메인 메뉴로 복귀
             } else {
