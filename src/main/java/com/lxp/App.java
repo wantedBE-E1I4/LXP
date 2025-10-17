@@ -130,6 +130,16 @@ public class App {
                 System.out.println(">>");
                 int courseId = scanner.nextInt();
                 lectureController.showLecturesByCourse(courseId);
+                System.out.println("== 원하시는 작업의 번호를 입력해주세요 ! ==");
+                System.out.println("1. 강의 등록");
+                System.out.println("2. 강의 삭제");
+                System.out.println(">>");
+                int taskNum = scanner.nextInt();
+                switch (taskNum) {
+                    case 1: lectureController.addLectureToCourse(scanner);
+                        System.out.println(">> 강의가 등록되었습니다!");
+                        break;
+                }
             } else if ("3".equals(menuChoice)) {
                 System.out.println("아직 구현되지 않은 기능입니다.");
             } else if ("0".equals(menuChoice)) {
