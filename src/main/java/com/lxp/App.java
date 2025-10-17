@@ -83,26 +83,23 @@ public class App {
      */
     private static void runStudentMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
         // Long studentId = 1L; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
+        int currentUserId = 3;
         while (true) {
-            //전체 강좌 출력
+
             courseController.showAllCourses();
             System.out.println("\n--- [학생 메뉴] ---");
-            System.out.println("1. 전체 강좌 목록 조회");
-            System.out.println("2. 강좌 수강 신청");
-            System.out.println("3. 특정 강좌의 강의(차시) 목록 보기");
+            System.out.println("1. 내 수강 목록");
+            System.out.println("2. 수강 신청");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
 
             if ("1".equals(menuChoice)) {
                 // CourseController를 통해 전체 강좌 목록을 보여줍니다.
-                courseController.showAllCourses();
+                courseController.showMyCourses();
             } else if ("2".equals(menuChoice)) {
                 // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
-                courseController.enrollCourse(scanner /*, studentId */);
-            } else if ("3".equals(menuChoice)) {
-                // LectureController를 통해 특정 강좌의 강의 목록을 보여줍니다.
-                lectureController.showLecturesByCourse(scanner);
+                courseController.enrollCourse(scanner, currentUserId);
             } else if ("0".equals(menuChoice)) {
                 return; // 메인 메뉴로 복귀
             } else {
