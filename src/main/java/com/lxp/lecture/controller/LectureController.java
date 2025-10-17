@@ -54,6 +54,7 @@ public class LectureController {
 
         // 강의 리스트
         // NOTE : Service layer에 값을 넘겨줄 때는 단순 데이터를 넘겨줘야 합니다.
+        // TODO : LectureService는 주영님이 만든 메서드로 수행.
         List<LecturesByCourse> lectures = lectureService.getLecturesByCourse(convertIntCourseId);
 
         for (LecturesByCourse lecture : lectures) {

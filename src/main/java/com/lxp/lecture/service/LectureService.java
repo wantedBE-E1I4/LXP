@@ -13,9 +13,4 @@ public class LectureService {
         this.lectureDAO = lectureDAO;
     }
 
-    public List<LecturesByCourse> getLecturesByCourse(int courseId) {
-
-        List<LecturesByCourse> response = lectureDAO.findByCourseId(courseId);
-        return response;
-    }
 }
