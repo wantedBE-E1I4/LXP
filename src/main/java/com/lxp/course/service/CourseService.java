@@ -1,7 +1,7 @@
 package com.lxp.course.service;
 
 import com.lxp.course.Course;
-import com.lxp.course.EnrollmentDAO;
+import com.lxp.course.dao.EnrollmentDAO;
 import com.lxp.course.dao.CourseDAO;
 import com.lxp.course.dao.CourseDAOtutor;
 import com.lxp.course.service.dto.CreateCourseDto;
