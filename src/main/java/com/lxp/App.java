@@ -42,7 +42,7 @@ public class App {
 
         // Controller 계층 객체 생성 (필요한 Service를 주입)
         UserController userController = new UserController(userService);
-        LectureController lectureController = new LectureController(lectureService);
+        LectureController lectureController = new LectureController(lectureService, enrollmentService, courseService);
         CourseController courseController = new CourseController(courseService, lectureService, enrollmentService);
 
         // ====================================================================
@@ -81,11 +81,24 @@ public class App {
      * 학생 전용 메뉴를 실행하는 메서드
      */
     private static void runStudentMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
-        // Long studentId = 1L; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
+         int studentId = 3; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
         while (true) {
+            // TODO
+            /*
+            * 여기서 전체 강좌 목록이 떠야함.
+            * (재웅)
+            * 1. 수강 목록
+            *               -> 내 수강 목록 띄우고 (재웅)
+*           *                                         1. 강의 듣기 (세훈)
+*           *                                         2. 수강 취소 (세훈)
+            * 2. 수강 신청
+            *               -> 전체 강좌 목록 띄우고 (재웅)
+            *                                       -> 수강 신청 완료 (재웅)
+            * */
+            // TODO : 여기서 전체 강좌 출력
             System.out.println("\n--- [학생 메뉴] ---");
             System.out.println("1. 전체 강좌 목록 조회");
-            System.out.println("2. 강좌 수강 신청");
+            System.out.println("2. 강좌 수강 신청"); // TODO: 내 강좌 보기 안에 있어야 할 것 같음
             System.out.println("3. 특정 강좌의 강의(차시) 목록 보기");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");

@@ -1,5 +1,6 @@
 package com.lxp.lecture.dao;
 
+import com.lxp.lecture.dto.LecturesByCourse;
 import com.lxp.lecture.Lecture;
 
 import java.sql.Connection;

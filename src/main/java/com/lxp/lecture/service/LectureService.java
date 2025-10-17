@@ -1,7 +1,11 @@
 package com.lxp.lecture.service;
 
+import com.lxp.course.Course;
 import com.lxp.lecture.Lecture;
 import com.lxp.lecture.dao.LectureDAO;
+import com.lxp.lecture.dto.LecturesByCourse;
+
+import java.util.List;
 
 import java.sql.SQLException;
 import java.util.List;
