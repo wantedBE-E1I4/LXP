@@ -25,7 +25,7 @@ public class App {
 
         // DAO 계층 객체 생성
         UserDAO userDAO = new UserDAO();
-        CourseDAOtutor courseDAOtutor = new CourseDAOtutor();
+        CourseDAOtutor courseDAOtutor = new CourseDAOtutor(conn);
         CourseDAO courseDAO = new CourseDAO(conn);
         LectureDAO lectureDAO = new LectureDAO(conn);
         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
@@ -35,7 +35,8 @@ public class App {
         LectureService lectureService = new LectureService(lectureDAO);
         EnrollmentService enrollmentService = new EnrollmentService(enrollmentDAO);
         // CourseService는 수강신청(enroll) 기능을 위해 여러 DAO가 필요할 수 있습니다.
-        CourseService courseService = new CourseService(courseDAO, lectureDAO, enrollmentDAO);
+
+        CourseService courseService = new CourseService(courseDAO, courseDAOtutor, lectureDAO, enrollmentDAO);
 
         // Controller 계층 객체 생성 (필요한 Service를 주입)
         UserController userController = new UserController(userService);
@@ -92,7 +93,7 @@ public class App {
 
             if ("1".equals(menuChoice)) {
                 // CourseController를 통해 전체 강좌 목록을 보여줍니다.
-                //courseController.showAllCourses();
+                courseController.showAllCourses();
             } else if ("2".equals(menuChoice)) {
                 // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
                 courseController.enrollCourse(scanner /*, studentId */);

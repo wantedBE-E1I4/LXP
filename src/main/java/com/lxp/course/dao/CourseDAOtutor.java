@@ -1,54 +1,39 @@
 package com.lxp.course.dao;
 
-
-import com.lxp.course.Course; // Course 클래스 import
+import com.lxp.course.Course;
 import com.lxp.config.DatabaseManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CourseDAOtutor {
+    private final Connection conn;
 
-    public CourseDAOtutor() {
+    /**
+     * [수정] App.java에서 Connection 객체를 주입받도록 생성자를 수정합니다.
+     * @param conn 데이터베이스 연결 객체
+     */
+    public CourseDAOtutor(Connection conn) {
         this.conn = conn;
     }
+
     /**
-     * 모든 강좌 목록과 해당 강좌의 강사 이름을 DB에서 조회하여 반환합니다.
-     * @return 각 요소가 [Course 객체, 강사 이름] 형태인 List<Object[]>
-     * @throws SQLException DB 조회 오류 발생 시
+     * [복원 및 수정] 특정 ID의 강좌를 논리적으로 삭제 처리합니다.
+     * @param courseId 삭제할 강좌의 ID (int 타입)
+     * @return 업데이트에 영향을 받은 row의 개수
      */
-    public List<Object[]> findAllCoursesWithTutorName() throws SQLException {
-        // L-01 기능을 위해 JOIN하는 SQL 쿼리
-        String sql = "SELECT c.course_id, c.title, c.tutor_id, u.user_name " + // 필요한 컬럼 추가
-                "FROM courses c JOIN users u ON c.tutor_id = u.user_id"; // tutorId로 JOIN (DB 컬럼명 확인!)
+    public int deleteById(int courseId) {
+        String sql = "UPDATE courses SET del_flag = true WHERE course_id = ?";
+        int affectedRows = 0;
 
-        List<Object[]> resultList = new ArrayList<>();
-
-        // try-with-resources (Connection은 App.java에서 관리하므로 여기서 닫지 않음)
-        try (PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
-
-            while (rs.next()) {
-                // Course 객체 생성 (DB 설계에 맞는 생성자나 팩토리 메서드 필요)
-                Course course = Course.createCourse(
-                        rs.getInt("tutor_id"), // DB 설계 확인
-                        rs.getString("title")
-                );
-
-                String tutorName = rs.getString("user_name");
-
-                // Course 객체와 강사 이름을 배열로 묶어서 리스트에 추가
-                resultList.add(new Object[]{course, tutorName});
-            }
+        // try-with-resources 구문은 PreparedStatement에만 적용합니다. (Connection은 App에서 관리)
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, courseId);
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("강좌 삭제 중 오류가 발생했습니다.");
+            e.printStackTrace();
         }
-        // catch 블록은 Service 계층에서 처리하도록 SQLException을 던집니다.
-        return resultList;
-    }
-
-    public int deleteById(Long courseId) {
-
+        return affectedRows;
     }
 }

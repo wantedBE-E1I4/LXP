@@ -20,6 +20,7 @@ import java.util.List;
  * 강좌 데이터 접근 객체 (courses 테이블 담당)
  */
 public class CourseDAO {
+    private Connection conn;
 
     public CourseDAO(Connection conn) {
 
