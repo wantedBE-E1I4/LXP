@@ -5,6 +5,7 @@ import com.lxp.course.EnrollmentDAO;
 import com.lxp.course.EnrollmentService;
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.dao.CourseDAO;
+import com.lxp.course.dao.CourseDAOtutor;
 import com.lxp.course.service.CourseService;
 import com.lxp.lecture.controller.LectureController;
 import com.lxp.lecture.dao.LectureDAO;
@@ -21,14 +22,9 @@ public class App {
     public static void main(String[] args) throws SQLException {
         Connection conn = DatabaseManager.getConnection();
 
-        // ====================================================================
-        // 1. 의존성 설정 (Dependency Injection)
-        // 프로그램에 필요한 모든 객체를 시작점에서 미리 생성하고 연결합니다.
-        // 순서: DAO -> Service -> Controller
-        // ====================================================================
-
         // DAO 계층 객체 생성
         UserDAO userDAO = new UserDAO();
+        CourseDAOtutor courseDAOtutor = new CourseDAOtutor(conn);
         CourseDAO courseDAO = new CourseDAO(conn);
         LectureDAO lectureDAO = new LectureDAO(conn);
         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
@@ -38,7 +34,8 @@ public class App {
         LectureService lectureService = new LectureService(lectureDAO);
         EnrollmentService enrollmentService = new EnrollmentService(enrollmentDAO);
         // CourseService는 수강신청(enroll) 기능을 위해 여러 DAO가 필요할 수 있습니다.
-        CourseService courseService = new CourseService(courseDAO, lectureDAO, enrollmentDAO);
+
+        CourseService courseService = new CourseService(courseDAO, courseDAOtutor, lectureDAO, enrollmentDAO);
 
         // Controller 계층 객체 생성 (필요한 Service를 주입)
         UserController userController = new UserController(userService);
@@ -84,6 +81,8 @@ public class App {
     private static void runLearnerMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
         // Long learnerId = 1L; // 실제로는 로그인된 학습자의 ID를 받아와야 합니다.
         while (true) {
+            //전체 강좌 출력
+            courseController.showAllCourses();
             System.out.println("\n--- [학습자 메뉴] ---");
             System.out.println("1. 전체 강좌 목록 조회");
             System.out.println("2. 강좌 수강 신청");
@@ -91,8 +90,10 @@ public class App {
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
+
             if ("1".equals(menuChoice)) {
                 // CourseController를 통해 전체 강좌 목록을 보여줍니다.
+                System.out.println("✅ here");
                 courseController.showAllCourses();
             } else if ("2".equals(menuChoice)) {
                 // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
@@ -112,31 +113,41 @@ public class App {
      * 선생님 전용 메뉴를 실행하는 메서드
      */
     private static void runTutorMenu(Scanner scanner, CourseController courseController, LectureController lectureController, UserController userController) {
-        // Long tutorId = 2L; // 실제로는 로그인된 강사의 ID를 받아와야 합니다.
+        // 전체 강좌 출력
+        courseController.showAllCourses();
+        // Long teacherId = 2L; // 실제로는 로그인된 선생님의 ID를 받아와야 합니다.
         while (true) {
             System.out.println("\n--- [강사 메뉴] ---");
-            System.out.println("0. 역할 선택으로 돌아가기");
-            System.out.println("1. 내 강좌 관리");
+            System.out.println("1. 내 강좌 관리 ");
             System.out.println("2. 내 강좌 목록 보기");
-            System.out.println("3. 내 강좌의 강의 관리");
-            System.out.println("4. 전체 강좌 조회");
+            System.out.println("3. 내 강좌에 강의 관리");
+            System.out.println("4. 전체강좌 조회 ");
+            System.out.println("0. 역할 선택으로 돌아가기");
             System.out.println("q. 프로그램 종료");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
 
-            if ("1".equals(menuChoice)) {
-                // [수정] 강좌 관리에 대한 모든 책임을 CourseController에게 위임합니다.
-                courseController.manageCourses(scanner);
-            } else if ("2".equals(menuChoice)) {
-                System.out.println("강사님께서 개설하신 강좌목록입니다.");
-                courseController.showAllCourses();
-            } else if ("3".equals(menuChoice)) {
-                // LectureController 관련 로직
-            } else if ("0".equals(menuChoice)) {
-                return; // 메인 메뉴로 복귀
-            } else if ("q".equals(menuChoice)) {
-                System.out.println("종료기능 구현중.");
-            } else {
+                if ("1".equals(menuChoice)) {
+                    // [수정] 강좌 관리에 대한 모든 책임을 CourseController에게 위임합니다.
+                    courseController.manageCourses(scanner);
+                } else if ("2".equals(menuChoice)) {
+                    System.out.println("강사님께서 개설하신 강좌목록입니다.");
+                    courseController.showAllCourses();
+                }
+                else if ("3".equals(menuChoice)) {
+                    System.out.println("== 내 강좌 목록 ==");
+                    lectureController.getCourseList();
+                    System.out.println("== 원하시는 강좌의 번호를 입력해주세요! ==");
+                    Long courseId = scanner.nextLong();
+                    lectureController.getLectureList(courseId);
+                }
+
+                else if ("0".equals(menuChoice)) {
+                    return; // 메인 메뉴로 복귀
+                }
+                else if ("q".equals(menuChoice)) {
+                System.out.println("종료기능 구현중."); }
+                else {
                 System.out.println("잘못된 입력입니다.");
             }
         }
