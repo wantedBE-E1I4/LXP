@@ -1,8 +1,10 @@
 package com.lxp.course.service;
 
+import com.lxp.course.Course;
 import com.lxp.course.EnrollmentDAO;
 import com.lxp.course.dao.CourseDAO;
 import com.lxp.course.dao.CourseDAOtutor;
+import com.lxp.course.service.dto.CreateCourseDto;
 import com.lxp.lecture.dao.LectureDAO;
 
 import java.sql.SQLException;
@@ -33,6 +35,11 @@ public class CourseService {
     public boolean deleteCourseById(int courseId) {
         int affectedRows = courseDAOtutor.deleteById(courseId);
         return affectedRows > 0;
+    }
+
+    public int openNewCourse(CreateCourseDto dto) {
+        Course course = new Course(dto.getTutorId(), dto.getTitle(), dto.getDescription(), dto.getCategory());
+        return courseDAO.save(course);
     }
 
     public List<Object[]> getAllCoursesWithTutorName() {

@@ -25,12 +25,14 @@ public class Course {
         this.delFlag = delFlag;
     }
 
-    /**
-     * [추가] CourseDAO와의 호환성을 위해 팩토리 메서드를 추가합니다.
-     * @param tutorId 튜터 ID
-     * @param title 강좌 제목
-     * @return 새로운 Course 객체
-     */
+    public Course(int tutorId, String title, String description, String category) {
+        this.tutorId = tutorId;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+    }
+
+    // Factory Method
     public static Course createCourse(int tutorId, String title) {
         Course course = new Course();
         course.setTutorId(tutorId);

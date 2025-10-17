@@ -1,37 +1,49 @@
 package com.lxp.course.controller;
 
 import com.lxp.course.Course;
-import com.lxp.course.EnrollmentService;
 import com.lxp.course.service.CourseService;
+import com.lxp.course.EnrollmentService;
+import com.lxp.course.service.dto.CreateCourseDto;
 import com.lxp.lecture.service.LectureService;
+import com.lxp.user.User;
+import com.lxp.user.service.UserService;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class CourseController {
-    private final CourseService courseService;
-    private final LectureService lectureService;
-    private final EnrollmentService enrollmentService;
+    Scanner scanner = new Scanner(System.in);
 
-    public CourseController(CourseService courseService, LectureService lectureService, EnrollmentService enrollmentService) {
+    private CourseService courseService;
+    private LectureService lectureService;
+    private EnrollmentService enrollmentService;
+    private UserService userService;
+
+    public CourseController(
+            CourseService courseService,
+            LectureService lectureService,
+            EnrollmentService enrollmentService,
+            UserService userService
+    ) {
         this.courseService = courseService;
         this.lectureService = lectureService;
         this.enrollmentService = enrollmentService;
+        this.userService = userService;
     }
 
     public void manageCourses(Scanner scanner) {
         while (true) {
             System.out.println("\n--- [강좌 관리 메뉴] ---");
-            System.out.println("1. 신규 강좌 개설");
+            System.out.println("1. 강좌 개설");
             System.out.println("2. 강좌 삭제");
             System.out.println("0. 이전 메뉴로 돌아가기");
             System.out.print(">> ");
             String subMenuChoice = scanner.nextLine(); // [핵심] Controller가 직접 입력을 받음
 
             if ("1".equals(subMenuChoice)) {
-               // this.createCourse(scanner); // 자신의 다른 메서드를 호출
+                this.createCourse(scanner);
             } else if ("2".equals(subMenuChoice)) {
-                this.deleteCourse(scanner); // 자신의 다른 메서드를 호출
+                this.deleteCourse(scanner);
             } else if ("0".equals(subMenuChoice)) {
                 return;
             } else {
@@ -61,7 +73,6 @@ public class CourseController {
             System.out.printf("%d. %s - %s\n", index, course.getTitle(), tutorName);
             index++;
         }
-
     }
 
     /**
@@ -91,8 +102,34 @@ public class CourseController {
         }
     }
 
+    //강좌 수강신청 (강좌단위)
     public void enrollCourse(Scanner scanner) {
     }
 
-    // ... (기타 메서드는 기존과 동일)
+    //강사 - 강좌 개설
+    public void createCourse(Scanner scanner) {
+        // 사용자 입력값 받기
+        System.out.println("\n--- 개설할 강좌의 정보를 입력해주세요. ---\n");
+        System.out.print("제목 : ");
+        String title = scanner.nextLine();
+        System.out.print("설명 : ");
+        String description = scanner.nextLine();
+        System.out.print("카테고리 : ");
+        String category = scanner.nextLine();
+
+        // 강사 조회
+        User currentTutor = this.userService.getCurrentTutor();
+
+        // DTO 생성
+        CreateCourseDto dto = new CreateCourseDto(currentTutor.getId(), title, description, category);
+
+        // 강사의 강좌 개설
+        int createdCourseId = courseService.openNewCourse(dto);
+
+        if (createdCourseId == 0) {
+            System.out.println("--- 강좌 개설 중 오류가 발생했습니다! 관리자에게 문의해주세요. ---");
+        } else {
+            System.out.println("--- 강좌가 개설되었습니다! ---");
+        }
+    }
 }
