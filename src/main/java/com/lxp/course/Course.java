@@ -5,7 +5,7 @@ import java.util.Date;
 // 강좌 엔티티
 public class Course {
     private int courseId;
-    private int tutorId; // TODO : DB에서는 teacherId로 정의 되어 있는 듯 합니다.
+    private int tutorId;
     private String title;
     private String description;
     private String category;
