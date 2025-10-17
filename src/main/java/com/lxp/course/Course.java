@@ -1,5 +1,7 @@
 package com.lxp.course;
 
+import com.lxp.lecture.Lecture;
+
 import java.util.Date;
 
 // 강좌 엔티티
@@ -68,4 +70,5 @@ public class Course {
     public void setDelFlg(int delFlg) {
         this.delFlg = delFlg;
     }
+
 }
