@@ -1,16 +1,12 @@
 package com.lxp.course;
 
-import java.time.LocalDateTime; // Java 8 이상에서 날짜/시간을 다루는 표준 클래스
-
-/**
- * 강좌 엔티티 (courses 테이블과 매핑)
- */
+// 강좌 엔티티
 public class Course {
-    private Long courseId;
+    private int courseId;
+    private int tutorId;
     private String title;
     private String description;
     private String category;
-    private Long teacherId;//tutor Id
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean delFlag; // DB의 del_flag (BOOLEAN)와 매핑
@@ -70,13 +66,12 @@ public class Course {
     public void setCategory(String category) {
         this.category = category;
     }
-
-    public Long getTeacherId() {
-        return teacherId;
+    public int getTutorId() {
+        return tutorId;
     }
 
-    public void setTeacherId(Long teacherId) {
-        this.teacherId = teacherId;
+    public void setTutorId(Long tutorId) {
+        this.tutorId = tutorId;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -103,3 +98,8 @@ public class Course {
         this.delFlag = delFlag;
     }
 }
+
+
+
+    }
+

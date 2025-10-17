@@ -1,7 +1,16 @@
 package com.lxp.course.dao;
 
+
 import com.lxp.config.DatabaseManager;
-import com.lxp.course.Course;
+import com.lxp.course.Course; // Course 클래스 import
+import com.lxp.user.User;   // User 클래스 import (강사 이름 때문에 필요)
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,95 +21,40 @@ import java.util.List;
  */
 public class CourseDAO {
 
-    /**
-     * 삭제되지 않은 모든 강좌 목록을 데이터베이스에서 조회합니다.
-     * @return 모든 Course 객체를 담은 리스트
-     */
-    public List<Course> findAll() {
-        // [수정] SQL 스키마에 정의된 정확한 컬럼명을 사용합니다.
-        String sql = "SELECT course_id, title, description, category, teacher_id, created_at, updated_at, del_flag FROM courses WHERE del_flag = false";
-        List<Course> courses = new ArrayList<>();
+    public CourseDAO(Connection conn) {
 
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
+        this.conn = conn;
+    }
+    /**
+     * 모든 강좌 목록과 해당 강좌의 강사 이름을 DB에서 조회하여 반환합니다.
+     * @return 각 요소가 [Course 객체, 강사 이름] 형태인 List<Object[]>
+     * @throws SQLException DB 조회 오류 발생 시
+     */
+    public List<Object[]> findAllCoursesWithTutorName() throws SQLException {
+        // L-01 기능을 위해 JOIN하는 SQL 쿼리
+        String sql = "SELECT c.course_id, c.title, c.tutor_id, u.user_name " + // 필요한 컬럼 추가
+                "FROM courses c JOIN users u ON c.tutor_id = u.user_id"; // tutorId로 JOIN (DB 컬럼명 확인!)
+
+        List<Object[]> resultList = new ArrayList<>();
+
+        // try-with-resources (Connection은 App.java에서 관리하므로 여기서 닫지 않음)
+        try (PreparedStatement pstmt = conn.prepareStatement(sql);
              ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
-                // [수정] Course.java의 생성자에 맞게 모든 필드를 매핑합니다.
-                Course course = new Course(
-                        rs.getLong("course_id"),
-                        rs.getString("title"),
-                        rs.getString("description"),
-                        rs.getString("category"),
-                        rs.getLong("teacher_id"),
-                        rs.getTimestamp("created_at").toLocalDateTime(), // Timestamp -> LocalDateTime 변환
-                        rs.getTimestamp("updated_at").toLocalDateTime(), // Timestamp -> LocalDateTime 변환
-                        rs.getBoolean("del_flag")
+                // Course 객체 생성 (DB 설계에 맞는 생성자나 팩토리 메서드 필요)
+                Course course = Course.createCourse(
+                        rs.getInt("tutor_id"), // DB 설계 확인
+                        rs.getString("title")
                 );
-                courses.add(course);
+
+                String tutorName = rs.getString("user_name");
+
+                // Course 객체와 강사 이름을 배열로 묶어서 리스트에 추가
+                resultList.add(new Object[]{course, tutorName});
             }
-        } catch (SQLException e) {
-            System.out.println("강좌 목록 조회 중 오류 발생");
-            e.printStackTrace();
         }
-        return courses;
-    }
-
-    /**
-     * 특정 ID의 강좌를 논리적으로 삭제 처리합니다. (del_flag를 true로 업데이트)
-     * @param courseId 삭제할 강좌의 ID
-     * @return 업데이트에 영향을 받은 row의 개수 (성공 시 1, 실패 시 0)
-     */
-    public int deleteById(Long courseId) {
-        // [수정] is_deleted -> del_flag로 컬럼명 수정
-        String sql = "UPDATE courses SET del_flag = true WHERE course_id = ?";
-        int affectedRows = 0;
-
-        try (Connection conn = DatabaseManager.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
-
-            pstmt.setLong(1, courseId);
-            affectedRows = pstmt.executeUpdate();
-
-        } catch (SQLException e) {
-            System.out.println("강좌 삭제 중 오류 발생");
-            e.printStackTrace();
-        }
-        return affectedRows;
-    }
-
-    /**
-     * 새로운 강좌를 데이터베이스에 저장합니다.
-     * @param course 저장할 Course 객체
-     * @return 저장된 Course 객체 (생성된 ID 포함)
-     */
-    public Course save(Course course) {
-        String sql = "INSERT INTO courses (title, description, category, teacher_id) VALUES (?, ?, ?, ?)";
-        ResultSet generatedKeys = null;
-
-        try (Connection conn = DatabaseManager.getConnection();
-             // [수정] INSERT 후 자동 생성된 키(ID)를 반환받기 위한 옵션 추가
-             PreparedStatement pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-
-            pstmt.setString(1, course.getTitle());
-            pstmt.setString(2, course.getDescription());
-            pstmt.setString(3, course.getCategory());
-            pstmt.setLong(4, course.getTeacherId());
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows > 0) {
-                // 저장 성공 시, DB가 생성한 course_id를 가져와서 course 객체에 설정
-                generatedKeys = pstmt.getGeneratedKeys();
-                if (generatedKeys.next()) {
-                    course.setCourseId(generatedKeys.getLong(1));
-                }
-                System.out.println("새로운 강좌가 성공적으로 저장되었습니다. (ID: " + course.getId() + ")");
-            }
-        } catch (SQLException e) {
-            System.out.println("강좌 저장 중 오류 발생");
-            e.printStackTrace();
-        }
-        return course;
+        // catch 블록은 Service 계층에서 처리하도록 SQLException을 던집니다.
+        return resultList;
     }
 }
