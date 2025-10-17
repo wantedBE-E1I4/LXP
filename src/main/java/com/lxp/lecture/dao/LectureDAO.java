@@ -32,7 +32,8 @@ public class LectureDAO {
                     Lecture lec = Lecture.ofIdCourseAndTitle(
                             rs.getInt("lecture_id"),
                             courseId,
-                            rs.getString("title")
+                            rs.getString("title"),
+                            rs.getInt("order_no")
                     );
                     result.add(lec);
                 }
