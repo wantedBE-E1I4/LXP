@@ -1,11 +1,9 @@
 package com.lxp.course;
 
-import java.util.Date;
-
 // 강좌 엔티티
 public class Course {
     private int courseId;
-    private int tutorId; // TODO : DB에서는 teacherId로 정의 되어 있는 듯 합니다.
+    private int tutorId;
     private String title;
     private String description;
     private String category;
@@ -20,5 +18,10 @@ public class Course {
     public static Course createCourse(int tutorId, String title) {
         return new Course(tutorId, title);
     }
-
-}
+    public int getTutorId() {
+        return tutorId;
+    }
+        public String getTitle() {
+        return title;
+        }
+    }
