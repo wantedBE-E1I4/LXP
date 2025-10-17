@@ -64,5 +64,23 @@ public class EnrollmentDAO {
             }
             return myCourses;
         }
+
+    public int deleteEnrollment(int courseId, int userId) {
+        String sql = "DELETE FROM enrollments WHERE course_id = ? AND user_id = ?";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, courseId);
+            pstmt.setInt(2, userId);
+
+            // 삭제된 행(row) 수를 반환함
+            int affectedRows = pstmt.executeUpdate();
+            return affectedRows;
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Enrollment 삭제 중 오류 발생", e);
+        }
+    }
+
 }
 
