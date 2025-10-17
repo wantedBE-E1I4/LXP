@@ -139,10 +139,11 @@ public class CourseController {
 
 
     public void showMyCoursesForLearner(Scanner scanner, int userId) {
-        // NOTE : 내 수강 목록 띄우기
-        List<Enrollment> enrollmentDataList = enrollmentService.getEnrollmentsByUser(userId);
 
         while(true) {
+            // NOTE : 내 수강 목록 띄우기
+            List<Enrollment> enrollmentDataList = enrollmentService.getEnrollmentsByUser(userId);
+
             System.out.println("\n== 내 수강 목록 ==");
             if (enrollmentDataList.isEmpty()) {
                 System.out.println("수강 신청한 강의가 없습니다.\n");
@@ -166,7 +167,7 @@ public class CourseController {
             if ("1".equals(menuChoice)) {
                 listenCourseForLearner(scanner, userId);
             } else if ("2".equals(menuChoice)) {
-                // TODO : 수강 취소
+                deleteCourseForLerner(scanner, userId, enrollmentDataList);
             } else if ("0".equals(menuChoice)) {
                 return;
             } else {
@@ -183,10 +184,12 @@ public class CourseController {
         List<Enrollment> enrollmentDataList = enrollmentService.getEnrollmentsByUser(userId);
         main:
         while (true) {
-            System.out.println("\n== 내 수강 목록 ==");
             if (enrollmentDataList.isEmpty()) {
-                System.out.println("수강 신청한 강의가 없습니다.\n");
+                System.out.println("수강 신청한 강의가 없어 이전 메뉴로 돌아갑니다.\n");
+                return;
             }
+
+            System.out.println("\n== 내 수강 목록 ==");
 
             // 받은 데이터를 for문으로 출력
             for (Enrollment data : enrollmentDataList) {
@@ -251,13 +254,56 @@ public class CourseController {
                         }
                     }
                 } else if (answer.toLowerCase().equals("n")) {
-                    // TODO : 이전 페이지로 넘어가기
                     continue one;
                 } else {
                     System.out.println("'y' 혹은 'n'을 입력해주세요.");
                 }
                 System.out.println("'<" + title + " - " + lectureTitle + ">'" + "수강 처리되었습니다.\n");
                 return;
+            }
+        }
+    }
+
+    /**
+     * 수강 취소 로직
+    * */
+    private void deleteCourseForLerner(Scanner scanner, int userId, List<Enrollment> enrollmentDataList) {
+
+        main:
+        while (true) {
+            if (enrollmentDataList.isEmpty()) {
+                System.out.println("수강 신청한 강의가 없어 이전 메뉴로 돌아갑니다.\n");
+                return;
+            }
+
+            System.out.println("\n== 내 수강 목록 ==");
+
+            // 받은 데이터를 for문으로 출력
+            for (Enrollment data : enrollmentDataList) {
+
+                // Course 객체에 getTitle() 메서드가 있어야 합니다.
+                System.out.printf("%d. %s - %s\n", data.getEnrollmentId(), data.getTitle(), data.getUserId());
+            }
+
+            System.out.println("\n--- 삭제하려는 강좌(Course)의 번호를 입력해주세요. ---");
+            int selectCourse = scanner.nextInt();
+            scanner.nextLine();
+
+            String title = null;
+            for (Enrollment data : enrollmentDataList) {
+                if (data.getCourseId() == selectCourse) {
+                    title = data.getTitle();
+                    int deletedRow = enrollmentService.deleteEnrollment(selectCourse, userId);
+                    if (deletedRow > 0) {
+                        System.out.println("<" + title + ">" + "이 삭제되었습니다.");
+                        return;
+                    } else {
+                        System.out.println("서버에 오류가 발생했습니다.");
+                    }
+                } else {
+                    System.out.println("없는 강좌(Course)를 선택하셨습니다.\n");
+                    continue main;
+                }
             }
         }
     }
