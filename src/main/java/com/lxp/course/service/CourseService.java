@@ -19,10 +19,6 @@ public class CourseService {
         this.enrollmentDAO = enrollmentDAO;
     }
 
-    public List<Course> getAllCourses() {
-        // DAO를 통해 모든 강좌를 가져옵니다.
-        return courseDAO.findAll();
-    }
 
     public boolean deleteCourseById(Long courseId) {
 

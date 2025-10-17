@@ -42,21 +42,7 @@ public class CourseController {
     }
 
     //강좌들 조회
-    public void showAllCourses() {
-        System.out.println("\n--- 📖 전체 강좌 목록 ---");
-        // 1. Service에게 모든 강좌 데이터를 요청합니다.
-        List<Course> courses = courseService.getAllCourses();
 
-        if (courses.isEmpty()) {
-            System.out.println("개설된 강좌가 없습니다.");
-        } else {
-            // 2. 받아온 데이터를 사용자가 보기 좋게 출력합니다.
-            courses.forEach(course ->
-                    System.out.printf("ID: %d, 제목: %s\n", course.getId(), course.getTitle())
-            );
-        }
-        System.out.println("--------------------");
-    }
 
     //강좌 수강신청 (강좌단위)
     public void enrollCourse(Scanner scanner) {
@@ -67,7 +53,7 @@ public class CourseController {
     //강사 - 강좌 삭제
     public void deleteCourse(Scanner scanner) {
         // 1. 먼저 사용자에게 삭제 가능한 강좌 목록을 보여줍니다.
-        showAllCourses();
+        //feature/woong-
 
         try {
             // 2. 사용자로부터 삭제할 강좌의 ID를 입력받습니다.

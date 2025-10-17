@@ -10,7 +10,7 @@ public class Course {
     private String title;
     private String description;
     private String category;
-    private Long teacherId;
+    private Long teacherId;//tutor Id
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private boolean delFlag; // DB의 del_flag (BOOLEAN)와 매핑

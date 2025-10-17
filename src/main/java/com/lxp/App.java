@@ -92,7 +92,7 @@ public class App {
             String menuChoice = scanner.nextLine();
             if ("1".equals(menuChoice)) {
                 // CourseController를 통해 전체 강좌 목록을 보여줍니다.
-                courseController.showAllCourses();
+                //courseController.showAllCourses();
             } else if ("2".equals(menuChoice)) {
                 // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
                 courseController.enrollCourse(scanner /*, studentId */);
@@ -127,7 +127,7 @@ public class App {
                     courseController.manageCourses(scanner);
                 } else if ("2".equals(menuChoice)) {
                     System.out.println("강사님께서 개설하신 강좌목록입니다.");
-                    courseController.showAllCourses();
+                   // courseController.showAllCourses();
                 }
                 else if ("3".equals(menuChoice)) {
                     System.out.println("== 내 강좌 목록 ==");
