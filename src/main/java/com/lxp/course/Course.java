@@ -36,25 +36,6 @@ public class Course {
         this.delFlag = delFlag;
     }
 
-    // --- Factory Method ---
-
-    /**
-     * 새로운 강좌를 '생성'할 때 사용하는 팩토리 메서드
-     * @param title 강좌 제목
-     * @param description 강좌 설명
-     * @param category 카테고리
-     * @param teacherId 담당 강사 ID
-     * @return 초기값이 설정된 새로운 Course 객체
-     */
-    public static Course createNewCourse(String title, String description, String category, Long teacherId) {
-        Course course = new Course();
-        course.setTitle(title);
-        course.setDescription(description);
-        course.setCategory(category);
-        course.setTeacherId(teacherId);
-        // ID, 생성/수정일, 삭제 플래그는 DB에서 자동으로 처리되므로 설정하지 않습니다.
-        return course;
-    }
 
     // --- Getter and Setter ---
 

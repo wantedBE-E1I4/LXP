@@ -117,7 +117,6 @@ public class App {
             System.out.println("2. 내 강좌 목록 보기");
             System.out.println("3. 내 강좌에 강의 관리"); // 주영님
             System.out.println("4. 전체강좌 조회 ");
-
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.println("q. 프로그램 종료");
             System.out.print(">> ");

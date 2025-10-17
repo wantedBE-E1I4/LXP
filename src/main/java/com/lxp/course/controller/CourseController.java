@@ -57,10 +57,11 @@ public class CourseController {
         }
         System.out.println("--------------------");
     }
+
     //강좌 수강신청 (강좌단위)
     public void enrollCourse(Scanner scanner) {
     }
-    //강사 - 강좌 개설
+    //강사 - 강좌 개설_
     public void createCourse(Scanner scanner) {
     }
     //강사 - 강좌 삭제
