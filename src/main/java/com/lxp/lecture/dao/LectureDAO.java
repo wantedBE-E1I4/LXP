@@ -17,10 +17,10 @@ public class LectureDAO {
     }
 
     public List<Lecture> findByCourseId(int courseId) {
-        String sql = "select lecture_id, title " +
+        String sql = "select order_no, lecture_id, title " +
                 "from lectures " +
                 "where course_id = ? and del_flag = 0 " +
-                "Order by lecture_id asc";
+                "Order by order_no asc";
 
         List<Lecture> result = new ArrayList<>();
 
