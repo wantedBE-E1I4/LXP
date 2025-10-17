@@ -15,12 +15,4 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public User findUserByRole(Role role) {
-        try {
-            return userDAO.getUserByRole(role);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
 }
