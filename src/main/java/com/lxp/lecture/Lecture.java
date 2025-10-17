@@ -8,6 +8,7 @@ public class Lecture {
     private String title;
     private String content;
     private int orderNo;
+    private int delFlg;
 
     public int getLectureId() {
         return lectureId;
@@ -16,8 +17,6 @@ public class Lecture {
     public String getTitle() {
         return title;
     }
-
-    private int delFlg;
 
     private Lecture(int courseId, String title) {
         this.courseId = courseId;

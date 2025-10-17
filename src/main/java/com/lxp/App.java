@@ -128,7 +128,7 @@ public class App {
         while (true) {
             System.out.println("\n--- [선생님 메뉴] ---");
             System.out.println("1. 신규 강좌 개설");
-            System.out.println("2. 내 강좌에 강의 관리");
+            System.out.println("2. 내 강좌에 강의 관리"); //3번으로 바꾸기!!!!
             System.out.println("3. 내 강좌 목록 보기");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
@@ -139,6 +139,7 @@ public class App {
             } else if ("2".equals(menuChoice)) {
                 System.out.println("== 내 강좌 목록 ==");
                 // courseId:1을 클릭한다고 가정
+                courseController.showAllCourses();
                 System.out.println("== 원하시는 강좌의 번호를 입력해주세요! ==");
                 System.out.println(">>");
                 int courseId = scanner.nextInt();

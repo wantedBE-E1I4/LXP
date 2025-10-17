@@ -16,7 +16,6 @@ public class LectureDAO {
     public LectureDAO(Connection conn) {
         this.conn = conn;
     }
-
     public List<Lecture> findByCourseId(int courseId) {
         String sql = "select order_no, lecture_id, title " +
                 "from lectures " +
