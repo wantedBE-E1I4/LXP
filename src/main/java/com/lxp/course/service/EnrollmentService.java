@@ -1,6 +1,7 @@
-package com.lxp.course;
+package com.lxp.course.service;
 
-import com.lxp.course.dto.CourseData;
+import com.lxp.course.Enrollment;
+import com.lxp.course.dao.EnrollmentDAO;
 import com.lxp.course.dto.EnrollmentData;
 
 import java.util.List;
@@ -13,8 +14,7 @@ public class EnrollmentService {
         this.enrollmentDAO = enrollmentDAO;
     }
 
-    public List<EnrollmentData> getEnrollmentsByUser(int userId) {
-        List<EnrollmentData> response = enrollmentDAO.findByUserId(userId);
-        return response;
+    public List<Enrollment> getEnrollmentsByUser(int userId) {
+        return enrollmentDAO.findMyCourse(userId);
     }
 }
