@@ -39,8 +39,12 @@ public class App {
 
         // Controller 계층 객체 생성 (필요한 Service를 주입)
         UserController userController = new UserController(userService);
-        LectureController lectureController = new LectureController(lectureService);
+
+        LectureController lectureController = new LectureController(lectureService, enrollmentService, courseService);
+       // CourseController courseController = new CourseController(courseService, lectureService, enrollmentService);
+
         CourseController courseController = new CourseController(courseService, lectureService, enrollmentService, userService);
+
 
         // ====================================================================
         // 2. 메인 애플리케이션 루프
@@ -85,7 +89,7 @@ public class App {
             courseController.showAllCourses();
             System.out.println("\n--- [학습자 메뉴] ---");
             System.out.println("1. 전체 강좌 목록 조회");
-            System.out.println("2. 강좌 수강 신청");
+            System.out.println("2. 강좌 수강 신청"); // TODO: 내 강좌 보기 안에 있어야 할 것 같음
             System.out.println("3. 특정 강좌의 강의(차시) 목록 보기");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
@@ -100,7 +104,8 @@ public class App {
                 courseController.enrollCourse(scanner /*, learnerId */);
             } else if ("3".equals(menuChoice)) {
                 // LectureController를 통해 특정 강좌의 강의 목록을 보여줍니다.
-                lectureController.showLecturesByCourse(scanner);
+                // courseId:1을 클릭했다고 가정
+                lectureController.showLecturesByCourse(1);
             } else if ("0".equals(menuChoice)) {
                 return; // 메인 메뉴로 복귀
             } else {
@@ -126,28 +131,35 @@ public class App {
             System.out.println("q. 프로그램 종료");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
-
-                if ("1".equals(menuChoice)) {
+              if ("1".equals(menuChoice)) {
                     // [수정] 강좌 관리에 대한 모든 책임을 CourseController에게 위임합니다.
                     courseController.manageCourses(scanner);
                 } else if ("2".equals(menuChoice)) {
                     System.out.println("강사님께서 개설하신 강좌목록입니다.");
                     courseController.showAllCourses();
+                } else if ("3".equals(menuChoice)) {
+                System.out.println("== 내 강좌 목록 ==");
+                // courseId:1을 클릭한다고 가정
+                courseController.showAllCourses();
+                System.out.println("== 원하시는 강좌의 번호를 입력해주세요! ==");
+                System.out.println(">>");
+                int courseId = scanner.nextInt();
+                lectureController.showLecturesByCourse(courseId);
+                System.out.println("== 원하시는 작업의 번호를 입력해주세요 ! ==");
+                System.out.println("1. 강의 등록");
+                System.out.println("2. 강의 삭제");
+                System.out.println(">>");
+                int taskNum = scanner.nextInt();
+                switch (taskNum) {
+                    case 1: lectureController.addLectureToCourse(scanner);
+                        System.out.println(">> 강의가 등록되었습니다!");
+                        break;
                 }
-                else if ("3".equals(menuChoice)) {
-                    System.out.println("== 내 강좌 목록 ==");
-                    lectureController.getCourseList();
-                    System.out.println("== 원하시는 강좌의 번호를 입력해주세요! ==");
-                    Long courseId = scanner.nextLong();
-                    lectureController.getLectureList(courseId);
-                }
-
-                else if ("0".equals(menuChoice)) {
-                    return; // 메인 메뉴로 복귀
-                }
-                else if ("q".equals(menuChoice)) {
-                System.out.println("종료기능 구현중."); }
-                else {
+            } else if ("3".equals(menuChoice)) {
+                System.out.println("아직 구현되지 않은 기능입니다.");
+            } else if ("0".equals(menuChoice)) {
+                return; // 메인 메뉴로 복귀
+            } else {
                 System.out.println("잘못된 입력입니다.");
             }
         }

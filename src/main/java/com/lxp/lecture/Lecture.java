@@ -10,6 +10,14 @@ public class Lecture {
     private int orderNo;
     private int delFlg;
 
+    public int getLectureId() {
+        return lectureId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
     private Lecture(int courseId, String title) {
         this.courseId = courseId;
         this.title = title;
@@ -18,5 +26,11 @@ public class Lecture {
     // Factory Method
     public static Lecture createLecture(int courseId, String title) {
         return new Lecture(courseId, title);
+    }
+
+    public static Lecture ofIdCourseAndTitle(int lectureId, int courseId, String title) {
+        Lecture l = new Lecture(courseId, title);
+        l.lectureId = lectureId;
+        return l;
     }
 }
