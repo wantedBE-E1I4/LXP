@@ -9,6 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.List;
+
 // 강좌 관련 로직
 public class CourseService {
     private CourseDAO courseDAO;
@@ -19,6 +21,16 @@ public class CourseService {
         this.courseDAO = courseDAO;
         this.lectureDAO = lectureDAO;
         this.enrollmentDAO = enrollmentDAO;
+    }
+
+
+    public boolean deleteCourseById(Long courseId) {
+
+        // DAO에게 실제 삭제 작업을 위임합니다.
+        // DAO의 deleteById 메서드가 삭제된 row의 개수(int)를 반환한다고 가정합니다.
+        int affectedRows = courseDAO.deleteById(courseId);
+        // 1개 이상의 row가 영향을 받았다면 성공적으로 삭제된 것입니다.
+        return affectedRows > 0;
     }
     /**
      * 모든 강좌 목록과 강사 이름을 조회합니다.

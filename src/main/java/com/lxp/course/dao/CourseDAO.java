@@ -1,5 +1,7 @@
 package com.lxp.course.dao;
 
+
+import com.lxp.config.DatabaseManager;
 import com.lxp.course.Course; // Course 클래스 import
 import com.lxp.user.User;   // User 클래스 import (강사 이름 때문에 필요)
 import java.sql.Connection;
@@ -9,9 +11,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-// 강좌 데이터 접근
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 강좌 데이터 접근 객체 (courses 테이블 담당)
+ */
 public class CourseDAO {
-    private Connection conn;
 
     public CourseDAO(Connection conn) {
 
