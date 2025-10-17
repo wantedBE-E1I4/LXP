@@ -3,6 +3,7 @@ package com.lxp.course.service;
 import com.lxp.course.Course;
 import com.lxp.course.EnrollmentDAO;
 import com.lxp.course.dao.CourseDAO;
+import com.lxp.course.service.dto.CreateCourseDto;
 import com.lxp.lecture.dao.LectureDAO;
 
 // 강좌 관련 로직
@@ -17,10 +18,8 @@ public class CourseService {
         this.enrollmentDAO = enrollmentDAO;
     }
 
-    public Course openNewCourse(int UserId) {
-        // TODO: 엔티티 생성
-        Course.createCourse();
-        // TODO: DAO 호출
-        //
+    public int openNewCourse(CreateCourseDto dto) {
+        Course course = Course.createCourse(dto.getTutorId(), dto.getTitle(), dto.getDescription(), dto.getCategory());
+        return courseDAO.save(course);
     }
 }

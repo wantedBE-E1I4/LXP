@@ -16,9 +16,32 @@ public class Course {
         this.title = title;
     }
 
+    private Course(int tutorId, String title, String description, String category) {
+        this.tutorId = tutorId;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+    }
+
+    public int getTutorId() {
+        return tutorId;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
     // Factory Method
-    public static Course createCourse(int tutorId, String title) {
-        return new Course(tutorId, title);
+    public static Course createCourse(int tutorId, String title, String description, String category) {
+        return new Course(tutorId, title, description, category);
     }
 
 }

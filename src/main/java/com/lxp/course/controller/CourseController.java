@@ -3,6 +3,7 @@ package com.lxp.course.controller;
 import com.lxp.course.Course;
 import com.lxp.course.service.CourseService;
 import com.lxp.course.EnrollmentService;
+import com.lxp.course.service.dto.CreateCourseDto;
 import com.lxp.lecture.service.LectureService;
 import com.lxp.user.User;
 import com.lxp.user.service.UserService;
@@ -59,24 +60,30 @@ public class CourseController {
     }
 
     //강사 - 강좌 개설
-    public Course createCourse(Scanner scanner) {
+    public void createCourse(Scanner scanner) {
         // 사용자 입력값 받기
         System.out.println("\n--- 개설할 강좌의 정보를 입력해주세요. ---\n");
-        System.out.println("제목 : ");
+        System.out.print("제목 : ");
         String title = scanner.nextLine();
-        System.out.println("설명 : ");
+        System.out.print("설명 : ");
         String description = scanner.nextLine();
-        System.out.println("카테고리 : ");
+        System.out.print("카테고리 : ");
         String category = scanner.nextLine();
 
         // 강사 조회
         User currentTutor = this.userService.getCurrentTutor();
 
-        // 강사의 강좌 개설
-        Course createdCourse = courseService.openNewCourse(currentTutor.getId(), );
+        // DTO 생성
+        CreateCourseDto dto = new CreateCourseDto(currentTutor.getId(), title, description, category);
 
-        // 새로운 강좌 반환
-        return createdCourse;
+        // 강사의 강좌 개설
+        int createdCourseId = courseService.openNewCourse(dto);
+
+        if (createdCourseId == 0) {
+            System.out.println("--- 강좌 개설 중 오류가 발생했습니다! 관리자에게 문의해주세요. ---");
+        } else {
+            System.out.println("--- 강좌가 개설되었습니다! ---");
+        }
     }
 
     //강사 - 강좌 삭제
