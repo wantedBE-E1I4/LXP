@@ -48,4 +48,10 @@ public class LectureController {
     public void deleteLectureFromCourse(Scanner scanner) {
 
     }
+
+    public void getCourseList() {
+    }
+
+    public void getLectureList(Long courseId) {
+    }
 }
