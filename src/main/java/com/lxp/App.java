@@ -82,13 +82,14 @@ public class App {
     /**
      * 학습자 전용 메뉴를 실행하는 메서드
      */
-    private static void runLearnerMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
-        // Long learnerId = 1L; // 실제로는 로그인된 학습자의 ID를 받아와야 합니다.
+    private static void runStudentMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
+        // Long studentId = 1L; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
+        int currentUserId = 3;
         while (true) {
-            //전체 강좌 출력
+
             courseController.showAllCourses();
-            System.out.println("\n--- [학습자 메뉴] ---");
-            System.out.println("1. 수강 목록");
+            System.out.println("\n--- [학생 메뉴] ---");
+            System.out.println("1. 내 수강 목록");
             System.out.println("2. 수강 신청");
             System.out.println("0. 역할 선택으로 돌아가기");
             System.out.print(">> ");
@@ -98,8 +99,8 @@ public class App {
                 // NOTE : 두번째 파라미터에 user_id 값을 넣어주세요.
                 courseController.showMyCoursesForLearner(scanner, 3);
             } else if ("2".equals(menuChoice)) {
-                // TODO : 수강신청 페이지로 이동 (재웅)
-//                courseController.showRegisterCourse();
+                // CourseService의 enroll 기능을 CourseController를 통해 호출합니다.
+                courseController.enrollCourse(scanner, currentUserId);
             } else if ("0".equals(menuChoice)) {
                 return; // 메인 메뉴로 복귀
             } else {

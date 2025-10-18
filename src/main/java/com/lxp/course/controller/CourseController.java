@@ -1,6 +1,7 @@
 package com.lxp.course.controller;
 
 import com.lxp.course.Course;
+import com.lxp.course.dto.CourseWithStatusDTO;
 import com.lxp.course.Enrollment;
 import com.lxp.course.service.CourseService;
 import com.lxp.course.service.EnrollmentService;
@@ -55,8 +56,9 @@ public class CourseController {
         }
     }
 
-
-    public void showAllCourses() {;
+    //모든 강좌 출력
+    public void showAllCourses() {
+        ;
         // 1. Service에게 데이터 요청
         List<Object[]> courseDataList = courseService.getAllCoursesWithTutorName();
 
@@ -77,6 +79,10 @@ public class CourseController {
             index++;
         }
     }
+
+    //내 강좌 목록 출력
+    public void showMyCourses() {
+        List<Object[]> courseDataList = courseService.getAllCoursesWithTutorName();
 
     /**
      * [복원 및 수정] 강좌 삭제 기능을 복원합니다.
@@ -105,9 +111,36 @@ public class CourseController {
         }
     }
 
-    //강좌 수강신청 (강좌단위)
-    public void enrollCourse(Scanner scanner) {
-    }
+    public void enrollCourse(Scanner scanner, int userId) {
+        // Service 호출 시 Scanner 없이 userId만 전달
+        List<CourseWithStatusDTO> courses = courseService.getAllCoursesWithStatus(userId);
+
+        // 1. 가져온 courses 목록을 화면에 출력 (for문 사용)
+        System.out.println("\n== 전체 강좌 목록 (신청 상태) ==");
+        if (courses.isEmpty()) {
+            System.out.println("개설된 강좌가 없습니다.");
+            return; // 수강 신청할 강좌가 없으므로 메서드 종료
+        }
+        int index = 1;
+        for (CourseWithStatusDTO courseDTO : courses) {
+            String status = courseDTO.isEnrolled() ? " - 수강중" : " - 수강하지 않음";
+
+            System.out.printf("%d. %sby %s%s\n",
+                    index,
+                    courseDTO.getTitle(),     // getTitle() Getter 사용
+                    courseDTO.getTutorName(), // getTutorName() Getter 사용
+                    status);
+            index++;
+        }
+
+        // 2. 사용자에게 수강할 강좌 번호 입력받기
+        System.out.println("\n== 수강할 강좌의 번호를 입력해주세요 ==");
+        System.out.print(">> ");
+        String input = scanner.nextLine(); // 여기서 scanner 사용
+
+
+        }
+
 
     //강사 - 강좌 개설
     public void createCourse(Scanner scanner) {
@@ -307,4 +340,4 @@ public class CourseController {
             }
         }
     }
-}
+
