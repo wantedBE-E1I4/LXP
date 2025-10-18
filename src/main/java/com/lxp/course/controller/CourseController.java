@@ -212,10 +212,11 @@ public class CourseController {
 
 
     /**
-     * 강의 듣기 로직
+     * 강좌 듣기 로직
     * */
     private void listenCourseForLearner(Scanner scanner, int userId) {
         List<Enrollment> enrollmentDataList = enrollmentService.getEnrollmentsByUser(userId);
+
         main:
         while (true) {
             if (enrollmentDataList.isEmpty()) {
@@ -232,36 +233,55 @@ public class CourseController {
                 System.out.printf("%d. %s - %s\n", data.getEnrollmentId(), data.getTitle(), data.getUserId());
             }
 
-            System.out.println("\n--- 수강하려는 강좌(Course)의 번호를 입력해주세요. ---");
-            int selectCourse = scanner.nextInt();
+            System.out.println("\n0. 이전 메뉴로 돌아가기");
+            System.out.println("--- 수강하려는 강좌(Course)의 번호를 입력해주세요. ---");
+            int selectCourseId = scanner.nextInt();
             scanner.nextLine();
 
-            String title = null;
-            for (Enrollment data : enrollmentDataList) {
-                if (data.getCourseId() == selectCourse) {
-                    title = data.getTitle();
-                } else {
-                    System.out.println("없는 강좌(Course)를 선택하셨습니다.\n");
-                    continue main;
+            String selectedCourseTitle = null;
+            if (selectCourseId == 0) {
+                return;
+            } else {
+                for (Enrollment data : enrollmentDataList) {
+                    if (data.getCourseId() == selectCourseId) {
+                        selectedCourseTitle = data.getTitle();
+                    } else {
+                        System.out.println("없는 강좌(Course)를 선택하셨습니다.\n");
+                        continue main;
+                    }
                 }
             }
 
 
-            /*-------구분선--------*/
-            one:
-            while (true){
-                System.out.println("=== " + title + " ===");
-                List<Lecture> lectureDataList = lectureService.getLectureList(selectCourse);
-                for (Lecture data : lectureDataList) {
-                    System.out.printf("%d. %s\n", data.getOrderNo(), data.getTitle());
-                }
+            listenLectureForLearner(scanner, selectedCourseTitle, selectCourseId);
+        }
+    }
 
-                System.out.println("\n--- 수강하려는 강의(Lecture)의 번호를 입력해주세요 ---");
-                System.out.print(">> ");
-                int selectedLecture = scanner.nextInt();
-                scanner.nextLine();
+    /**
+     * 강의 듣기 로직
+    * */
+    private void listenLectureForLearner(Scanner scanner, String title, int selectedCourseId) {
+        /*-------구분선--------*/
+        main:
+        while (true){
+            System.out.println("=== " + title + " ===");
+            List<Lecture> lectureDataList = lectureService.getLectureList(selectedCourseId);
+            for (Lecture data : lectureDataList) {
+                System.out.printf("%d. %s\n", data.getOrderNo(), data.getTitle());
+            }
 
-                Optional<Lecture> selectedLectureOpt = lectureDataList.stream()
+            System.out.println("\n0. 이전 메뉴로 돌아가기");
+            System.out.println("--- 수강하려는 강의(Lecture)의 번호를 입력해주세요 ---");
+            System.out.print(">> ");
+            int selectedLecture = scanner.nextInt();
+            scanner.nextLine();
+
+
+            Optional<Lecture> selectedLectureOpt;
+            if (selectedLecture == 0) {
+                return;
+            } else {
+                selectedLectureOpt = lectureDataList.stream()
                         .filter(l -> l.getLectureId() == selectedLecture)
                         .findFirst();
 
@@ -269,32 +289,32 @@ public class CourseController {
                     System.out.println("없는 강의(Lecture)를 선택하셨습니다.\n");
                     return;
                 }
-
-                int selectedLectureId = selectedLectureOpt.get().getLectureId();
-
-                // NOTE : 수강 여부 [y/n]
-                System.out.println("수강하시겠습니까 ? [y/n]");
-                String answer = scanner.nextLine();
-                String lectureTitle = null;
-
-                if (answer.toLowerCase().equals("y")) {
-                    for (Lecture data : lectureDataList) {
-                        if (data.getLectureId() == selectedLectureId) {
-                            lectureTitle = data.getTitle();
-                            break;
-                        } else {
-                            System.out.println("없는 강의를 선택하셨습니다.\n");
-                            continue one;
-                        }
-                    }
-                } else if (answer.toLowerCase().equals("n")) {
-                    continue one;
-                } else {
-                    System.out.println("'y' 혹은 'n'을 입력해주세요.");
-                }
-                System.out.println("'<" + title + " - " + lectureTitle + ">'" + "수강 처리되었습니다.\n");
-                return;
             }
+
+            int selectedLectureId = selectedLectureOpt.get().getLectureId();
+
+            // NOTE : 수강 여부 [y/n]
+            System.out.println("수강하시겠습니까 ? [y/n]");
+            String answer = scanner.nextLine();
+            String lectureTitle = null;
+
+            if (answer.toLowerCase().equals("y")) {
+                for (Lecture data : lectureDataList) {
+                    if (data.getLectureId() == selectedLectureId) {
+                        lectureTitle = data.getTitle();
+                        break;
+                    } else {
+                        System.out.println("없는 강의를 선택하셨습니다.\n");
+                        continue main;
+                    }
+                }
+            } else if (answer.toLowerCase().equals("n")) {
+                continue;
+            } else {
+                System.out.println("'y' 혹은 'n'을 입력해주세요.");
+            }
+            System.out.println("'<" + title + " - " + lectureTitle + ">'" + "수강 처리되었습니다.\n");
+            return;
         }
     }
 
