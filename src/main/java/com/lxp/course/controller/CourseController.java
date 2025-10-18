@@ -111,7 +111,7 @@ public class CourseController {
             System.out.println("❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
         }
     }
-
+        //수강 신청하기
     public void enrollCourse(Scanner scanner, int userId) {
         // Service 호출 시 Scanner 없이 userId만 전달
         List<CourseWithStatusDTO> courses = courseService.getAllCoursesWithStatus(userId);
@@ -138,9 +138,32 @@ public class CourseController {
         System.out.println("\n== 수강할 강좌의 번호를 입력해주세요 ==");
         System.out.print(">> ");
         String input = scanner.nextLine(); // 여기서 scanner 사용
+        // ... (사용자 입력 받아서 selectedIndex 계산) ...
+        int selectedIndex = Integer.parseInt(input);
+        int listIndex = selectedIndex - 1; // 1을 빼서 리스트 인덱스로 변환
 
+        if (listIndex >= 0 && listIndex < courses.size()) {
+            // 1. listIndex를 사용해서 courses 리스트에서 CourseWithStatusDTO 객체를 가져옵니다.
+            CourseWithStatusDTO selectedCourseDTO = courses.get(listIndex);
+
+            // 2. 가져온 DTO 객체에서 실제 courseId를 꺼냅니다.
+            int courseIdToEnroll = selectedCourseDTO.getCourseId();
+            System.out.println("선택한 강좌 : " + courseIdToEnroll);
+
+            boolean success = enrollmentService.enrollCourse(userId, courseIdToEnroll);
+
+            // 2. success 변수 값에 따라 메시지를 출력합니다.
+            if (success) {
+                System.out.println(" 수강 신청이 완료되었습니다!");
+            } else {
+                System.out.println(" 수강 신청에 실패했습니다. 이미 신청했거나 오류가 발생했습니다.");
+            }
+
+        } else {
+            System.out.println(" 잘못된 번호를 입력하셨습니다.");
 
         }
+    }
 
 
     //강사 - 강좌 개설
