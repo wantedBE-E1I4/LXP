@@ -268,7 +268,7 @@ public class CourseController {
             scanner.nextLine();
 
             String selectedCourseTitle = null;
-            int selectedCourseId = 0;
+            int selectedEnrollmentId = 0;
             boolean found = false;
             if (selectCourseIndex == 0) {
                 return;
@@ -279,7 +279,7 @@ public class CourseController {
 
                     if (checkIndex == selectCourseIndex) {
                         selectedCourseTitle = data.courseTitle();
-                        selectedCourseId = data.courseId();
+                        selectedEnrollmentId = data.enrollmentId();
                         found = true;
                         break;
                     }
@@ -292,7 +292,7 @@ public class CourseController {
             }
 
 
-            listenLectureForLearner(scanner, selectedCourseTitle, selectedCourseId);
+            listenLectureForLearner(scanner, selectedCourseTitle, selectedEnrollmentId);
         }
     }
 
