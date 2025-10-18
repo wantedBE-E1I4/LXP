@@ -24,8 +24,6 @@ public class LectureController {
         this.courseService = courseService;
     }
 
-
-
     //강좌별 강의조회
     public void showLecturesByCourse(int courseId) {
         String title = courseService.getCourseTitle(courseId);
@@ -35,14 +33,14 @@ public class LectureController {
             System.out.println("강의가 없습니다.");
         } else {
             for (Lecture lecture :  lectures ) {
-                System.out.printf("%d. %s%n", lecture.getLectureId(), lecture.getTitle());
+                System.out.printf("%d. %s%n", lecture.getOrderNo(), lecture.getTitle());
             }
         }
     }
 
     //강좌별 강의 추가
-    public void addLectureToCourse(Scanner scanner) {
-
+    public void addLectureToCourse(String lectureTitle, int courseId) {
+        lectureService.createLecture(lectureTitle, courseId);
     }
     //강좌별 강의 삭제
     public void deleteLectureFromCourse(Scanner scanner) {
