@@ -82,7 +82,7 @@ public class App {
     /**
      * 학습자 전용 메뉴를 실행하는 메서드
      */
-    private static void runStudentMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
+    private static void runLearnerMenu(Scanner scanner, CourseController courseController, LectureController lectureController) {
         // Long studentId = 1L; // 실제로는 로그인된 학생의 ID를 받아와야 합니다.
         int currentUserId = 3;
         while (true) {

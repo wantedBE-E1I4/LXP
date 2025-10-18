@@ -2,7 +2,7 @@ package com.lxp.course.service;
 
 import com.lxp.course.Course;
 import com.lxp.course.Enrollment;
-import com.lxp.course.EnrollmentDAO; // 필요한 DAO import
+import com.lxp.course.dao.EnrollmentDAO; // 필요한 DAO import
 import com.lxp.course.dao.CourseDAO;
 import com.lxp.course.dto.CourseWithStatusDTO;
 import com.lxp.lecture.dao.LectureDAO; // 필요한 DAO import
