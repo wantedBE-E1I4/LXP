@@ -72,6 +72,7 @@ public class CourseDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
     /**
      * 모든 강좌 목록과 해당 강좌의 강사 이름을 DB에서 조회하여 반환합니다.
      * @return 각 요소가 [Course 객체, 강사 이름] 형태인 List<Object[]>
@@ -91,6 +92,7 @@ public class CourseDAO {
             while (rs.next()) {
                 // Course 객체 생성 (DB 설계에 맞는 생성자나 팩토리 메서드 필요)
                 Course course = Course.createCourse(
+                        rs.getInt("course_id"),
                         rs.getInt("tutor_id"), // DB 설계 확인
                         rs.getString("title")
                 );

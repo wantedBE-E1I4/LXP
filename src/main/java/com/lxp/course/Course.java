@@ -33,8 +33,9 @@ public class Course {
     }
 
     // Factory Method
-    public static Course createCourse(int tutorId, String title) {
+    public static Course createCourse(int courseId, int tutorId, String title) {
         Course course = new Course();
+        course.setCourseId(courseId);
         course.setTutorId(tutorId);
         course.setTitle(title);
         return course;
