@@ -20,4 +20,14 @@ public class LectureService {
     public List<Lecture> getLectureList(int courseId) {
         return lectureDAO.findByCourseId(courseId);
     }
+
+    /**
+     * 강의를 생성합니다.
+     * @param lectureTitle
+     * @param courseId
+     */
+    public void createLecture(String lectureTitle, int courseId) {
+        Lecture lecture = new Lecture(courseId, lectureTitle);
+        lectureDAO.save(lecture);
+    }
 }

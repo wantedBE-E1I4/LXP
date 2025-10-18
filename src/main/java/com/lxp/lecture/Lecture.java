@@ -18,18 +18,17 @@ public class Lecture {
         return title;
     }
 
+    public int getCourseId() {
+        return courseId;
+    }
+
     public int getOrderNo() {
         return orderNo;
     }
 
-    public void setOrderNo(int orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    private Lecture(int courseId, String title, int orderNo) {
+    public Lecture(int courseId, String title) {
         this.courseId = courseId;
         this.title = title;
-        this.orderNo = orderNo;
     }
 
     // Factory Method
@@ -37,9 +36,10 @@ public class Lecture {
         return new Lecture(courseId, title,  orderNo);
     }
 
-    public static Lecture ofIdCourseAndTitle(int lectureId, int courseId, String title,int orderNo) {
-        Lecture l = new Lecture(courseId, title, orderNo);
+    public static Lecture ofIdCourseAndTitle(int lectureId, int courseId, String title, int orderNo) {
+        Lecture l = new Lecture(courseId, title);
         l.lectureId = lectureId;
+        l.orderNo = orderNo;
         return l;
     }
 }
