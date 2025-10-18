@@ -58,7 +58,7 @@ public class CourseController {
 
     //모든 강좌 출력
     public void showAllCourses() {
-        ;
+
         // 1. Service에게 데이터 요청
         List<Object[]> courseDataList = courseService.getAllCoursesWithTutorName();
 
