@@ -32,7 +32,7 @@ public class EnrollmentDAO {
                 "e.status, " +
                 "c.title " +
                 "FROM enrollments e JOIN courses c ON e.course_id = c.course_id " +
-                "WHERE e.user_id = ? AND e.status = 'IN_PROGRESS'"; // '수강중' 상태값 확인 필요
+                "WHERE e.user_id = ?"; // '수강중' 과 '수강완료' 상태값 확인 필요
 
         List<Enrollment> myCourses = new ArrayList<>();
 
@@ -148,5 +148,21 @@ public class EnrollmentDAO {
         }
         return myCourses;
     }
+
+    public boolean existsByUserAndCourse(int userId, int courseId) {
+        String sql = "SELECT COUNT(*) FROM enrollments WHERE user_id = ? AND course_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, courseId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("중복 수강 확인 중 오류 발생", e);
+        }
+        return false;
+    }
+
 }
 
