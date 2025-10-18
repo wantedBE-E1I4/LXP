@@ -2,11 +2,11 @@ package com.lxp.course.controller;
 
 import com.lxp.course.Course;
 import com.lxp.course.dto.CourseWithStatusDTO;
+import com.lxp.course.dto.EnrollmentLecture;
 import com.lxp.course.dto.MyEnrollmentCourseInfo;
 import com.lxp.course.service.CourseService;
 import com.lxp.course.service.EnrollmentService;
 import com.lxp.course.service.dto.CreateCourseDto;
-import com.lxp.lecture.Lecture;
 import com.lxp.lecture.service.LectureService;
 import com.lxp.user.User;
 import com.lxp.user.service.UserService;
@@ -172,6 +172,9 @@ public class CourseController {
 
 
 
+    /**
+     * '내 수강 목록' 페이지
+    * */
     public void showMyCoursesForLearner(Scanner scanner, int userId) {
 
         while(true) {
@@ -217,10 +220,9 @@ public class CourseController {
      * 강좌 듣기 로직
     * */
     private void listenCourseForLearner(Scanner scanner, int userId) {
-        List<MyEnrollmentCourseInfo> enrollmentDataList = enrollmentService.getMyEnrollments(userId);
-
         main:
         while (true) {
+            List<MyEnrollmentCourseInfo> enrollmentDataList = enrollmentService.getMyEnrollments(userId);
             if (enrollmentDataList.isEmpty()) {
                 System.out.println("수강 신청한 강의가 없어 이전 메뉴로 돌아갑니다.\n");
                 return;
@@ -275,62 +277,71 @@ public class CourseController {
      * 강의 듣기 로직
     * */
     private void listenLectureForLearner(Scanner scanner, String title, int selectedCourseId) {
-        /*-------구분선--------*/
-        main:
-        while (true){
+        while (true) {
             System.out.println("\n=== " + title + " ===");
-            List<Lecture> lectureDataList = lectureService.getLectureList(selectedCourseId);
-            for (Lecture data : lectureDataList) {
-                System.out.printf("%d. %s\n", data.getOrderNo(), data.getTitle());
+
+            // 수강 중인 강좌의 강의 목록 불러오기
+            List<EnrollmentLecture> lectureDataList = enrollmentService.getEnrollmentLectures(selectedCourseId);
+
+            if (lectureDataList.isEmpty()) {
+                System.out.println("등록된 강의가 없습니다.\n");
+                return;
+            }
+
+            // 강의 목록 출력
+            for (EnrollmentLecture data : lectureDataList) {
+                String status = data.completed() ? "수강 완료" : "미수강";
+                System.out.printf("%d. %s (%s)\n", data.lectureOrderNo(), data.lectureName(), status);
             }
 
             System.out.println("\n0. 이전 메뉴로 돌아가기");
             System.out.println("--- 수강하려는 강의(Lecture)의 번호를 입력해주세요 ---");
             System.out.print(">> ");
-            int selectedLecture = scanner.nextInt();
-            scanner.nextLine();
 
+            int selectedLectureOrder = scanner.nextInt();
+            scanner.nextLine(); // 개행 제거
 
-            Optional<Lecture> selectedLectureOpt;
-            if (selectedLecture == 0) {
+            // 0 입력 시 메뉴 복귀
+            if (selectedLectureOrder == 0) {
                 return;
-            } else {
-                selectedLectureOpt = lectureDataList.stream()
-                        .filter(l -> l.getLectureId() == selectedLecture)
-                        .findFirst();
-
-                if (selectedLectureOpt.isEmpty()) {
-                    System.out.println("없는 강의(Lecture)를 선택하셨습니다.\n");
-                    return;
-                }
             }
 
-            int selectedLectureId = selectedLectureOpt.get().getLectureId();
+            // 입력값으로 강의 찾기 (lectureOrderNo 기준)
+            Optional<EnrollmentLecture> selectedLectureOpt = lectureDataList.stream()
+                    .filter(l -> l.lectureOrderNo() == selectedLectureOrder)
+                    .findFirst();
 
-            // NOTE : 수강 여부 [y/n]
-            System.out.println("수강하시겠습니까 ? [y/n]");
-            String answer = scanner.nextLine();
-            String lectureTitle = null;
+            if (selectedLectureOpt.isEmpty()) {
+                System.out.println("없는 강의(Lecture)를 선택하셨습니다.\n");
+                continue; // 다시 입력 받기
+            }
 
-            if (answer.toLowerCase().equals("y")) {
-                for (Lecture data : lectureDataList) {
-                    if (data.getLectureId() == selectedLectureId) {
-                        lectureTitle = data.getTitle();
-                        break;
-                    } else {
-                        System.out.println("없는 강의를 선택하셨습니다.\n");
-                        continue main;
-                    }
-                }
-            } else if (answer.toLowerCase().equals("n")) {
+            EnrollmentLecture selectedLecture = selectedLectureOpt.get();
+
+            // 이미 완료된 강의일 경우
+            if (selectedLecture.completed()) {
+                System.out.println("이미 수강 완료된 강의입니다.\n");
+                continue;
+            }
+
+            // 수강 여부 확인
+            System.out.print("'" + selectedLecture.lectureName() + "' 강의를 수강하시겠습니까? [y/n] >> ");
+            String answer = scanner.nextLine().trim().toLowerCase();
+
+            if (answer.equals("y")) {
+                enrollmentService.takeEnrollmentLecture(selectedLecture.enrollmentId(), selectedLecture.lectureId());
+                System.out.println("'<" + title + " - " + selectedLecture.lectureName() + ">' 수강 처리되었습니다.\n");
+                return; // 수강 후 종료 (또는 계속하려면 continue)
+            } else if (answer.equals("n")) {
+                System.out.println("수강을 취소했습니다.\n");
                 continue;
             } else {
-                System.out.println("'y' 혹은 'n'을 입력해주세요.");
+                System.out.println("'y' 또는 'n'만 입력해주세요.\n");
+                continue;
             }
-            System.out.println("'<" + title + " - " + lectureTitle + ">'" + "수강 처리되었습니다.\n");
-            return;
         }
     }
+
 
     /**
      * 수강 취소 로직
