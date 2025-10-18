@@ -83,6 +83,7 @@ public class CourseController {
     //내 강좌 목록 출력
     public void showMyCourses() {
         List<Object[]> courseDataList = courseService.getAllCoursesWithTutorName();
+    }
 
     /**
      * [복원 및 수정] 강좌 삭제 기능을 복원합니다.
@@ -340,4 +341,5 @@ public class CourseController {
             }
         }
     }
+}
 
