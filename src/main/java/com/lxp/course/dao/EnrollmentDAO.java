@@ -107,7 +107,6 @@ public class EnrollmentDAO {
                 e.printStackTrace();
                 return false;
             }
-        }
     }
 
 

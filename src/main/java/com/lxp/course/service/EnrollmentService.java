@@ -29,7 +29,6 @@ public class EnrollmentService {
     public boolean enrollCourse (int userId, int courseId){
 
         return enrollmentDAO.createEnrollment(userId, courseId);
-        }
     }
 
     public List<MyEnrollmentCourseInfo> getMyEnrollments(int userId) {
