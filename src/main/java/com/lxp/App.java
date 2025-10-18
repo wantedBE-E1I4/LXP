@@ -138,21 +138,30 @@ public class App {
                     System.out.println("강사님께서 개설하신 강좌목록입니다.");
                     courseController.showAllCourses();
                 } else if ("3".equals(menuChoice)) {
-                System.out.println("== 내 강좌 목록 ==");
-                // courseId:1을 클릭한다고 가정
                 courseController.showAllCourses();
+                System.out.println("");
                 System.out.println("== 원하시는 강좌의 번호를 입력해주세요! ==");
-                System.out.println(">>");
+                System.out.print(">> ");
                 int courseId = scanner.nextInt();
+                System.out.println("");
                 lectureController.showLecturesByCourse(courseId);
+                System.out.println("");
                 System.out.println("== 원하시는 작업의 번호를 입력해주세요 ! ==");
                 System.out.println("1. 강의 등록");
                 System.out.println("2. 강의 삭제");
-                System.out.println(">>");
+                System.out.print(">> ");
                 int taskNum = scanner.nextInt();
                 switch (taskNum) {
-                    case 1: lectureController.addLectureToCourse(scanner);
-                        System.out.println(">> 강의가 등록되었습니다!");
+                    case 1:
+                        scanner.nextLine(); // 남은 줄바꿈 제거
+                        System.out.println("");
+                        System.out.println("== 강의 세부사항을 입력해주세요 ==");
+                        System.out.print("제목 : ");
+                        String lectureTitle = scanner.nextLine();
+                        lectureController.addLectureToCourse(lectureTitle, courseId);
+                        System.out.println("");
+                        System.out.print(">> 강의가 등록되었습니다!");
+                        System.out.println("");
                         break;
                 }
             } else if ("3".equals(menuChoice)) {
