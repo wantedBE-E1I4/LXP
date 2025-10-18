@@ -3,6 +3,7 @@ package com.lxp.course.dao;
 import com.lxp.course.Enrollment;
 import com.lxp.course.EnrollmentStatus;
 import com.lxp.course.dto.EnrollmentData;
+import com.lxp.course.dto.MyEnrollmentCourseInfo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -82,5 +83,42 @@ public class EnrollmentDAO {
         }
     }
 
+    public List<MyEnrollmentCourseInfo> findMyCourseForLearner(int userId) {
+        String sql = "SELECT \n" +
+                "    e.enrollment_id AS enrollment_id,\n" +
+                "    c.course_id AS course_id,\n" +
+                "    c.title AS course_title,\n" +
+                "    tutor.user_name AS tutor_name,\n" +
+                "    e.progress AS progress\n" +
+                "FROM enrollments e\n" +
+                "JOIN users learner ON e.user_id = learner.user_id\n" +
+                "JOIN courses c ON e.course_id = c.course_id\n" +
+                "JOIN users tutor ON c.tutor_id = tutor.user_id\n" +
+                "WHERE learner.user_id = ?;\n";
+
+        List<MyEnrollmentCourseInfo> myCourses = new ArrayList<>();
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, userId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    MyEnrollmentCourseInfo enrollment = new MyEnrollmentCourseInfo(
+                            rs.getInt("enrollment_id"),
+                            rs.getInt("course_id"),
+                            rs.getString("course_title"),
+                            rs.getString("tutor_name"),
+                            rs.getDouble("progress")
+                    );
+                    myCourses.add(enrollment);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println("내 수강 목록 조회 중 오류가 발생했습니다.");
+            e.printStackTrace(); // 오류 내용 출력
+        }
+        return myCourses;
+    }
 }
 

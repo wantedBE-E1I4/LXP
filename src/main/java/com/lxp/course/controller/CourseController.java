@@ -3,6 +3,7 @@ package com.lxp.course.controller;
 import com.lxp.course.Course;
 import com.lxp.course.dto.CourseWithStatusDTO;
 import com.lxp.course.Enrollment;
+import com.lxp.course.dto.MyEnrollmentCourseInfo;
 import com.lxp.course.service.CourseService;
 import com.lxp.course.service.EnrollmentService;
 import com.lxp.course.service.dto.CreateCourseDto;
@@ -215,7 +216,7 @@ public class CourseController {
      * 강좌 듣기 로직
     * */
     private void listenCourseForLearner(Scanner scanner, int userId) {
-        List<Enrollment> enrollmentDataList = enrollmentService.getEnrollmentsByUser(userId);
+        List<MyEnrollmentCourseInfo> enrollmentDataList = enrollmentService.getMyEnrollments(userId);
 
         main:
         while (true) {
@@ -227,10 +228,12 @@ public class CourseController {
             System.out.println("\n== 내 수강 목록 ==");
 
             // 받은 데이터를 for문으로 출력
-            for (Enrollment data : enrollmentDataList) {
+            int index = 1;
+            for (MyEnrollmentCourseInfo data : enrollmentDataList) {
 
                 // Course 객체에 getTitle() 메서드가 있어야 합니다.
-                System.out.printf("%d. %s - %s\n", data.getEnrollmentId(), data.getTitle(), data.getUserId());
+                System.out.printf("%d. %s by%s (%.1f%%)\n", index, data.courseTitle(), data.tutorName(), data.progress());
+                index++;
             }
 
             System.out.println("\n0. 이전 메뉴로 돌아가기");
@@ -242,9 +245,9 @@ public class CourseController {
             if (selectCourseId == 0) {
                 return;
             } else {
-                for (Enrollment data : enrollmentDataList) {
-                    if (data.getCourseId() == selectCourseId) {
-                        selectedCourseTitle = data.getTitle();
+                for (MyEnrollmentCourseInfo data : enrollmentDataList) {
+                    if (data.courseId() == selectCourseId) {
+                        selectedCourseTitle = data.courseTitle();
                     } else {
                         System.out.println("없는 강좌(Course)를 선택하셨습니다.\n");
                         continue main;

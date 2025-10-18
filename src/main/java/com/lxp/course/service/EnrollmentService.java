@@ -3,6 +3,7 @@ package com.lxp.course.service;
 import com.lxp.course.Enrollment;
 import com.lxp.course.dao.EnrollmentDAO;
 import com.lxp.course.dto.EnrollmentData;
+import com.lxp.course.dto.MyEnrollmentCourseInfo;
 
 import java.util.List;
 
@@ -20,5 +21,8 @@ public class EnrollmentService {
 
     public int deleteEnrollment(int courseId, int userId) {
         return enrollmentDAO.deleteEnrollment(courseId, userId);
+    }
+    public List<MyEnrollmentCourseInfo> getMyEnrollments(int userId) {
+        return enrollmentDAO.findMyCourseForLearner(userId);
     }
 }
