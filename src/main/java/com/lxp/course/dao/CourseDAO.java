@@ -73,7 +73,6 @@ public class CourseDAO {
             throw new RuntimeException(e);
         }
     }
-
     /**
      * 모든 강좌 목록과 해당 강좌의 강사 이름을 DB에서 조회하여 반환합니다.
      * @return 각 요소가 [Course 객체, 강사 이름] 형태인 List<Object[]>

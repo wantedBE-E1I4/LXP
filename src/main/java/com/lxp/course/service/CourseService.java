@@ -10,6 +10,7 @@ import com.lxp.course.EnrollmentStatus;
 import com.lxp.course.dao.EnrollmentDAO;
 import com.lxp.course.dao.CourseDAO;
 import com.lxp.course.dao.CourseDAOtutor;
+import com.lxp.course.dto.CourseDetail;
 import com.lxp.course.service.dto.CreateCourseDto;
 import com.lxp.lecture.dao.LectureDAO;
 
@@ -59,6 +60,18 @@ public class CourseService {
             return new ArrayList<>();
         }
     }
+
+    /**
+     * 강좌 제목을 반환합니다.
+     * @param courseId 강좌의 ID
+     * @return 강좌의 title
+     */
+    public String getCourseTitle(int courseId) {
+        CourseDetail course = courseDAO.findById(courseId);
+        return course.title();
+    }
+
+}
         /*
          * 사용자의 수강 상태를 포함한 모든 강좌 목록을 조회합니다.
          * @param userId 현재 로그인한 사용자의 ID
