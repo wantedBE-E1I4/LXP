@@ -1,15 +1,9 @@
 package com.lxp.lecture.controller;
 
-import com.lxp.course.Course;
-import com.lxp.course.EnrollmentService;
-import com.lxp.course.dto.CourseData;
-import com.lxp.course.dto.CourseDetail;
-import com.lxp.course.dto.EnrollmentData;
+import com.lxp.course.service.EnrollmentService;
 import com.lxp.course.service.CourseService;
-import com.lxp.lecture.dto.LecturesByCourse;
 import com.lxp.lecture.Lecture;
 import com.lxp.lecture.service.LectureService;
-import com.lxp.user.User;
 
 import java.util.List;
 import java.util.Scanner;

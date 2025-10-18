@@ -32,8 +32,8 @@ public class Lecture {
     }
 
     // Factory Method
-    public static Lecture createLecture(int courseId, String title) {
-        return new Lecture(courseId, title);
+    public static Lecture createLecture(int courseId, String title,  int orderNo) {
+        return new Lecture(courseId, title,  orderNo);
     }
 
     public static Lecture ofIdCourseAndTitle(int lectureId, int courseId, String title, int orderNo) {
@@ -42,6 +42,4 @@ public class Lecture {
         l.orderNo = orderNo;
         return l;
     }
-
-
 }
