@@ -19,12 +19,19 @@ public class EnrollmentService {
     }
 
     public List<Enrollment> getEnrollmentsByUser(int userId) {
+
         return enrollmentDAO.findMyCourse(userId);
     }
 
     public int deleteEnrollment(int courseId, int userId) {
         return enrollmentDAO.deleteEnrollment(courseId, userId);
     }
+    public boolean enrollCourse (int userId, int courseId){
+
+        return enrollmentDAO.createEnrollment(userId, courseId);
+        }
+    }
+
     public List<MyEnrollmentCourseInfo> getMyEnrollments(int userId) {
         return enrollmentDAO.findMyCourseForLearner(userId);
     }
