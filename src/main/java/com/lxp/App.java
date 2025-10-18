@@ -2,6 +2,7 @@ package com.lxp;
 
 import com.lxp.config.DatabaseManager;
 import com.lxp.course.dao.EnrollmentDAO;
+import com.lxp.course.dao.LectureProcessDAO;
 import com.lxp.course.service.EnrollmentService;
 import com.lxp.course.controller.CourseController;
 import com.lxp.course.dao.CourseDAO;
@@ -28,11 +29,12 @@ public class App {
         CourseDAO courseDAO = new CourseDAO(conn);
         LectureDAO lectureDAO = new LectureDAO(conn);
         EnrollmentDAO enrollmentDAO = new EnrollmentDAO(conn);
+        LectureProcessDAO lectureProcessDAO = new LectureProcessDAO(conn);
 
         // Service 계층 객체 생성 (필요한 DAO를 주입)
         UserService userService = new UserService(userDAO);
         LectureService lectureService = new LectureService(lectureDAO);
-        EnrollmentService enrollmentService = new EnrollmentService(enrollmentDAO);
+        EnrollmentService enrollmentService = new EnrollmentService(enrollmentDAO, lectureProcessDAO);
         // CourseService는 수강신청(enroll) 기능을 위해 여러 DAO가 필요할 수 있습니다.
 
         CourseService courseService = new CourseService(courseDAO, courseDAOtutor, lectureDAO, enrollmentDAO);
