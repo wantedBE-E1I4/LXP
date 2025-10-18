@@ -26,10 +26,16 @@ public class EnrollmentService {
     public int deleteEnrollment(int courseId, int userId) {
         return enrollmentDAO.deleteEnrollment(courseId, userId);
     }
-    public boolean enrollCourse (int userId, int courseId){
+    public boolean enrollCourse(int userId, int courseId) {
+        // 1️⃣ 중복 여부 확인
+        if (enrollmentDAO.existsByUserAndCourse(userId, courseId)) {
+            return false;
+        }
 
+        // 2️⃣ 새 수강 신청
         return enrollmentDAO.createEnrollment(userId, courseId);
     }
+
 
     public List<MyEnrollmentCourseInfo> getMyEnrollments(int userId) {
         return enrollmentDAO.findMyCourseForLearner(userId);
