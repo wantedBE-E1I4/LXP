@@ -71,7 +71,6 @@ public class CourseService {
         return course.title();
     }
 
-}
         /*
          * 사용자의 수강 상태를 포함한 모든 강좌 목록을 조회합니다.
          * @param userId 현재 로그인한 사용자의 ID
