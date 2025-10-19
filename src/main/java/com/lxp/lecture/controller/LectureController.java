@@ -38,6 +38,7 @@ public class LectureController {
     }
     //강좌별 강의 삭제
     public void deleteLectureFromCourse(Scanner scanner) {
+        lectureService.
 
     }
 

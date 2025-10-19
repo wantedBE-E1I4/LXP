@@ -160,6 +160,17 @@ public class App {
                         System.out.print(">> 강의가 등록되었습니다!");
                         System.out.println("");
                         break;
+                    case 2:
+                        scanner.nextLine(); // 남은 줄바꿈 제거
+                        System.out.println("");
+                        System.out.println("== 강의 세부사항을 입력해주세요 ==");
+                        System.out.print("제목 : ");
+                        lectureTitle = scanner.nextLine();
+                        lectureController.deleteLectureFromCourse( );
+                        System.out.println("");
+                        System.out.print(">> 강의가 삭제되었습니다!");
+                        System.out.println("");
+                        break;
                 }
             } else if ("3".equals(menuChoice)) {
                 System.out.println("아직 구현되지 않은 기능입니다.");
