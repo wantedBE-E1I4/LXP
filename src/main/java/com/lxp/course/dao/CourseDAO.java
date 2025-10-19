@@ -92,6 +92,7 @@ public class CourseDAO {
             while (rs.next()) {
                 // Course 객체 생성 (DB 설계에 맞는 생성자나 팩토리 메서드 필요)
                 Course course = Course.createCourse(
+                        rs.getInt("course_id"),
                         rs.getInt("tutor_id"), // DB 설계 확인
                         rs.getString("title")
                 );
