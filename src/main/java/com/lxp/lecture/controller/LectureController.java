@@ -36,9 +36,18 @@ public class LectureController {
     public void addLectureToCourse(String lectureTitle, int courseId) {
         lectureService.createLecture(lectureTitle, courseId);
     }
-    //강좌별 강의 삭제
-    public void deleteLectureFromCourse(Scanner scanner) {
 
+    /**
+     * [수정] Service의 강의 삭제 기능을 호출합니다.
+     * @param lectureTitle 삭제할 강의의 제목
+     * @param courseId 해당 강의가 속한 강좌의 ID
+     */
+    public void deleteLectureFromCourse(String lectureTitle, int courseId) {
+        boolean isDeleted = lectureService.deleteLectureByTitle(lectureTitle, courseId);
+        // App.java의 출력 흐름을 존중하기 위해, Controller에서는 별도의 성공/실패 메시지를 출력하지 않습니다.
+        if (!isDeleted) {
+            System.out.println(">> 삭제할 강의를 찾지 못했거나, 이미 삭제되었습니다.");
+        }
     }
 
     public void getCourseList() {
