@@ -166,7 +166,9 @@ public class App {
                         System.out.println("== 강의 세부사항을 입력해주세요 ==");
                         System.out.print("제목 : ");
                         lectureTitle = scanner.nextLine();
-                        lectureController.deleteLectureFromCourse( );
+
+                        lectureController.deleteLectureFromCourse(lectureTitle, courseId);
+
                         System.out.println("");
                         System.out.print(">> 강의가 삭제되었습니다!");
                         System.out.println("");

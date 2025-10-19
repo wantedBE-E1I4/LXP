@@ -82,4 +82,27 @@ public class LectureDAO {
             try { conn.setAutoCommit(true); } catch (SQLException ignore) {}
         }
     }
+
+    /**
+     * [추가] 특정 강좌에 속한 강의를 제목으로 찾아 논리적으로 삭제합니다.
+     * @param title 삭제할 강의의 제목
+     * @param courseId 해당 강의가 속한 강좌의 ID
+     * @return 업데이트에 영향을 받은 row의 개수 (성공 시 1)
+     */
+    public int deleteByTitleAndCourseId(String title, int courseId) {
+        String sql = "UPDATE lectures SET del_flag = 1 WHERE title = ? AND course_id = ?";
+        int affectedRows = 0;
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, title);
+            pstmt.setInt(2, courseId);
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("강의 삭제 중 오류가 발생했습니다.");
+            e.printStackTrace();
+        }
+        return affectedRows;
+    }
+
+
 }
