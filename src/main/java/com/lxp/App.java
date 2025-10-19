@@ -125,7 +125,6 @@ public class App {
             System.out.println("3. 내 강좌에 강의 관리");
             System.out.println("4. 전체강좌 조회 ");
             System.out.println("0. 역할 선택으로 돌아가기");
-            System.out.println("q. 프로그램 종료");
             System.out.print(">> ");
             String menuChoice = scanner.nextLine();
               if ("1".equals(menuChoice)) {
@@ -173,9 +172,11 @@ public class App {
                         System.out.print(">> 강의가 삭제되었습니다!");
                         System.out.println("");
                         break;
+
+                    default: break;
                 }
-            } else if ("3".equals(menuChoice)) {
-                System.out.println("아직 구현되지 않은 기능입니다.");
+            } else if ("4".equals(menuChoice)) {
+                  courseController.showAllCourses();
             } else if ("0".equals(menuChoice)) {
                 return; // 메인 메뉴로 복귀
             } else {
